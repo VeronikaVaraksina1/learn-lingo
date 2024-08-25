@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx('bg-bg-color', roboto.className)}>{children}</body>
+      <body className={clsx('bg-bg-color max-w-[1440px] px-16 mx-auto', roboto.className)}>{children}</body>
     </html>
   );
 }

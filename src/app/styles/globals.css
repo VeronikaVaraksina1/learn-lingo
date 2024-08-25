@@ -38,15 +38,23 @@ a {
 
 button {
   cursor: pointer;
+  display: block;
 }
 
 img {
   display: block;
   max-width: 100%;
   height: auto;
+  object-fit: cover;
 }
 
 input,
 textarea {
   outline: none;
+}
+
+@layer utilities {
+  .transition-smooth {
+    @apply transition duration-200 ease-in-out;
+  }
 }

@@ -1,7 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-export default function button() {
+export interface ButtonProps {
+  children: React.ReactNode;
+}
+
+export default function Button({ children }: ButtonProps) {
   return (
-    <div>button</div>
-  )
+    <button
+      className="bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl hover:bg-light-red focus:bg-light-red transition-smooth"
+      type="button"
+    >
+      {children}
+    </button>
+  );
 }

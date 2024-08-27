@@ -4,8 +4,8 @@ import Feature from './components/feature';
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-center items-center gap-6">
-      <div className="flex gap-[24px]">
+    <div className="flex flex-col justify-center items-center gap-6">
+      <div className="flex flex-wrap gap-[24px]">
         <div className="flex gap-16 flex-col bg-guyabano px-16 py-[98px] max-w-[720px] rounded-[30px]">
           <div className="flex flex-col gap-8">
             <h1 className="text-5xl font-medium leading-[1.17em] tracking-tight">
@@ -32,7 +32,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <ul className="flex justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
+      <ul className="flex flex-wrap justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
         <li>
           <Feature number={'32,000'} description={'Experienced tutors'} />
         </li>
@@ -46,6 +46,6 @@ export default function Home() {
           <Feature number={'200'} description={'Tutor nationalities'} />
         </li>
       </ul>
-    </main>
+    </div>
   );
 }

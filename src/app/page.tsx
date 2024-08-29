@@ -21,7 +21,7 @@ export default function Home() {
               connecting with highly qualified and experienced tutors.
             </p>
           </div>
-          <Button>Get started</Button>
+          <Button className={'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl hover:bg-light-red focus:bg-light-red transition-smooth'}>Get started</Button>
         </div>
         <div>
           <Image

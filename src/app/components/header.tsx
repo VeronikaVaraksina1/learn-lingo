@@ -10,7 +10,7 @@ export interface HeaderProps {
 export default function Header({ children }: HeaderProps) {
   return (
     <header>
-      <div className="py-5">
+      <div className="flex justify-between items-center px-16 py-5">
         <Logo />
         <Navigation />
         <AuthMenu />

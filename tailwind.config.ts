@@ -9,6 +9,8 @@ const config: Config = {
         'text-color-main': '#121417',
         'text-color-muted': 'rgba(18, 20, 23, 0.7)',
         'text-color-gray': '#8a8a89',
+        'black': '#121417',
+        'white': '#ffffff',
         'guyabano': '#f8f8f8',
         'gray': '#8a8a89',
         'red': '#e0a39a',

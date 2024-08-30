@@ -9,7 +9,12 @@ export interface ModalWindowProps {
 
 export default function ModalWindow({ children, isOpenModal, onCloseModal }: ModalWindowProps) {
   useEffect(() => {
-    Modal.setAppElement('#__next');
+    if (typeof window !== 'undefined') {
+      const appElement = document.querySelector('#__next');
+      if (appElement) {
+        Modal.setAppElement(appElement as HTMLElement);
+      }
+    }
   }, []);
 
   const customStyles = {
@@ -26,9 +31,9 @@ export default function ModalWindow({ children, isOpenModal, onCloseModal }: Mod
       backgroundColor: '#fff',
     },
     overlay: {
-      backgroundColor: '#151516db',
+      backgroundColor: 'rgba(18, 20, 23, 0.7)',
     },
   };
 
-  return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal}>{children}</Modal>
+  return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal} style={customStyles}>{children}</Modal>
 };

@@ -18,7 +18,7 @@ export default function AuthMenu() {
 
   return (
     <div className='flex flex-wrap gap-4 justify-center items-center'>
-      <Button onClick={openModal} className={'flex gap-2.5 justify-center items-center font-bold leading-tight stroke-red hover:stroke-black focus:stroke-black transition-smooth'}>
+      <Button onClick={openModal} className={'flex gap-2.5 justify-center items-center font-bold leading-tight outline-none stroke-red hover:stroke-black focus:stroke-black transition-smooth'}>
         <svg width={20} height={20}>
           <use href="/icons/icons.svg#icon-log-in"></use>
         </svg>

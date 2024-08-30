@@ -19,6 +19,13 @@ const config: Config = {
         'gold': '#ffc531',
       },
     },
+    screens: {
+      'sm': {'max': '767px'},
+      // => @media (max-width: 767px) { ... }
+
+      'md': {'max': '1024px'},
+      // => @media (max-width: 1024px) { ... }
+    },
   },
   plugins: [],
 };

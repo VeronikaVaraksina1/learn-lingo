@@ -4,9 +4,9 @@ import Feature from './components/feature';
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center gap-6">
+    <div className="flex flex-col justify-center items-center gap-6 pb-8">
       <div className="flex flex-wrap gap-[24px]">
-        <div className="flex gap-16 flex-col bg-guyabano px-16 py-[98px] max-w-[720px] rounded-[30px]">
+        <div className="flex gap-16 flex-col bg-guyabano px-16 py-[98px] mx-auto max-w-[720px] rounded-[30px]">
           <div className="flex flex-col gap-8">
             <h1 className="text-5xl font-medium leading-[1.17em] tracking-tight">
               Unlock your potential with the best{' '}
@@ -21,9 +21,15 @@ export default function Home() {
               connecting with highly qualified and experienced tutors.
             </p>
           </div>
-          <Button className={'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl hover:bg-light-red focus:bg-light-red transition-smooth'}>Get started</Button>
+          <Button
+            className={
+              'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl hover:bg-light-red focus:bg-light-red transition-smooth'
+            }
+          >
+            Get started
+          </Button>
         </div>
-        <div>
+        <div className='mx-auto'>
           <Image
             src={'/images/bg.jpg'}
             alt={'girl and a laptop'}

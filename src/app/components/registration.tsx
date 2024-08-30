@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from './button';
 
-export interface LoginProps {
+export interface RegistrationProps {
   onCloseModal: () => void;
 }
 
-export default function Login({ onCloseModal }: LoginProps) {
+export default function Registration({ onCloseModal }: RegistrationProps) {
   return (
     <div className="flex flex-col gap-10 relative p-16">
       <Button type={'button'} onClick={onCloseModal} className="absolute top-5 right-5 stroke-black">
@@ -14,19 +14,17 @@ export default function Login({ onCloseModal }: LoginProps) {
         </svg>
       </Button>
       <div>
-        <h3 className="font-medium text-[40px] leading-tight tracking-tight mb-5">
-          Log In
-        </h3>
+        <h3 className="font-medium text-[40px] leading-tight tracking-tight mb-5">Registration</h3>
         <p className="max-w-[438px] leading-snug text-text-color-muted">
-          Welcome back! Please enter your credentials to access your account and
-          continue your search for an teacher.
+          Thank you for your interest in our platform! In order to register, we
+          need some information. Please provide us with the following information.
         </p>
       </div>
       <Button
         type={'submit'}
         className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover"
       >
-        Log In
+        Sign Up
       </Button>
     </div>
   );

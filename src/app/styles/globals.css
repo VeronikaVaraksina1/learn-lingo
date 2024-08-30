@@ -78,4 +78,8 @@ textarea {
   .pseudoelement-bottom-line {
     @apply before:bg-transparent before:absolute before:bottom-[-5px] before:left-0 before:w-full before:h-0.5 before:transition-smooth before:hover:bg-light-red;
   }
+
+  .red-button-hover {
+    @apply hover:bg-light-red focus:bg-light-red transition-smooth
+  }
 }

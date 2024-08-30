@@ -21,9 +21,9 @@ export default function Home() {
               connecting with highly qualified and experienced tutors.
             </p>
           </div>
-          <Button
+          <Button type={'button'}
             className={
-              'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl hover:bg-light-red focus:bg-light-red transition-smooth'
+              'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl red-button-hover'
             }
           >
             Get started
@@ -38,7 +38,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <ul className="flex flex-wrap justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
+      <ul className=" sm:p-[20px] sm:gap-6 flex flex-wrap justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
         <li>
           <Feature number={'32,000'} description={'Experienced tutors'} />
         </li>

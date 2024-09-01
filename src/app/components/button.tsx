@@ -2,7 +2,7 @@ import React from 'react';
 
 export type ButtonType = "submit" | "reset" | "button";
 
-export interface ButtonProps {
+interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   className?: string;

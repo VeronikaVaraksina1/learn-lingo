@@ -3,7 +3,7 @@ import Navigation from './navigation';
 import Logo from './logo';
 import AuthMenu from './auth-menu';
 
-export interface HeaderProps {
+interface HeaderProps {
   children: React.ReactNode;
 }
 

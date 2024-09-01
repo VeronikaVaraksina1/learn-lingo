@@ -2,7 +2,7 @@ import React from 'react';
 import Button from './button';
 import LoginForm from './login-form';
 
-export interface LoginProps {
+interface LoginProps {
   onCloseModal: () => void;
 }
 

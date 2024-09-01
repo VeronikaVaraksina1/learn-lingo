@@ -1,6 +1,6 @@
 import React from 'react';
 
-export interface FeatureProps {
+interface FeatureProps {
   number: string;
   description: string;
 }

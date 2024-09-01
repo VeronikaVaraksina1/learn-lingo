@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export interface GlobalErrorProps {}
+interface GlobalErrorProps {}
 
 function GlobalError({}: GlobalErrorProps) {
   return (

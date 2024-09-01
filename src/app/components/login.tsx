@@ -1,5 +1,6 @@
 import React from 'react';
 import Button from './button';
+import LoginForm from './login-form';
 
 export interface LoginProps {
   onCloseModal: () => void;
@@ -8,7 +9,11 @@ export interface LoginProps {
 export default function Login({ onCloseModal }: LoginProps) {
   return (
     <div className="flex flex-col gap-10 relative p-16">
-      <Button type={'button'} onClick={onCloseModal} className="absolute top-5 right-5 stroke-black">
+      <Button
+        type={'button'}
+        onClick={onCloseModal}
+        className="absolute top-5 right-5 stroke-black"
+      >
         <svg width={32} height={32}>
           <use href="/icons/icons.svg#icon-close"></use>
         </svg>
@@ -22,12 +27,8 @@ export default function Login({ onCloseModal }: LoginProps) {
           continue your search for an teacher.
         </p>
       </div>
-      <Button
-        type={'submit'}
-        className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover"
-      >
-        Log In
-      </Button>
+
+      <LoginForm />
     </div>
   );
 }

@@ -82,4 +82,16 @@ textarea {
   .red-button-hover {
     @apply hover:bg-light-red focus:bg-light-red transition-smooth
   }
+
+  .eye-hover {
+    @apply hover:stroke-black focus:stroke-black transition-smooth
+  }
+
+  .input-hover {
+    @apply hover:border-text-color-muted focus:border-text-color-muted transition-smooth
+  }
+
+  .input {
+    @apply w-full py-4 px-[18px] border-2 rounded-xl border-pale-black input-hover input-hover
+  }
 }

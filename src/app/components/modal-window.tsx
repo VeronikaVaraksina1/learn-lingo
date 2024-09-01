@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Modal from 'react-modal';
 
 export interface ModalWindowProps {
@@ -8,15 +8,6 @@ export interface ModalWindowProps {
 }
 
 export default function ModalWindow({ children, isOpenModal, onCloseModal }: ModalWindowProps) {
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const appElement = document.querySelector('#__next');
-      if (appElement) {
-        Modal.setAppElement(appElement as HTMLElement);
-      }
-    }
-  }, []);
-
   const customStyles = {
     content: {
       maxWidth: '800px',
@@ -34,6 +25,8 @@ export default function ModalWindow({ children, isOpenModal, onCloseModal }: Mod
       backgroundColor: 'rgba(18, 20, 23, 0.7)',
     },
   };
+
+  Modal.setAppElement("#modal")
 
   return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal} style={customStyles}>{children}</Modal>
 };

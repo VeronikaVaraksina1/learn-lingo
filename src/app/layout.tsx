@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import './styles/globals.css';
 import { Roboto } from 'next/font/google';
-import clsx from 'clsx';
 import Header from './components/header';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
@@ -19,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx('bg-bg-color max-w-[1440px] px-16 mx-auto', roboto.className)}>
+      <body className={roboto.className}>
         <Header>
           <main>{children}</main>
         </Header>

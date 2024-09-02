@@ -70,6 +70,21 @@ textarea {
   outline: none;
 }
 
+select {
+  padding: 16px 18px;
+  padding-right: 24px;
+  border: 1px solid transparent;
+  outline: transparent;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  transition: border 250ms ease-in-out; 
+}
+
+select:hover {
+  border: 1px solid #8a8a89;
+}
+
 @layer utilities {
   .transition-smooth {
     @apply transition duration-200 ease-in-out;

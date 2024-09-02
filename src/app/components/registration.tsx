@@ -6,10 +6,10 @@ import ModalWindow from './modal-window';
 import Login from './login';
 
 interface RegistrationProps {
-  setIsOpenReg: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenLog: React.Dispatch<React.SetStateAction<boolean>>;
   onCloseModal: () => void;
   isOpenLog: boolean;
-  setIsOpenLog: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpenReg: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Registration({ setIsOpenReg, onCloseModal, isOpenLog, setIsOpenLog }: RegistrationProps) {
@@ -31,7 +31,7 @@ export default function Registration({ setIsOpenReg, onCloseModal, isOpenLog, se
       <RegistrationForm />
 
       <div className="flex gap-4 text-sm">
-        <p className="text-text-color-muted">Have the account?</p>
+        <p className="text-text-color-muted">Have an account?</p>
         <Button
           type={'button'}
           className={'underline decoration-solid decoration-black'}

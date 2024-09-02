@@ -1,31 +1,57 @@
 import React from 'react';
 import Button from './button';
+import RegistrationForm from './registration-form';
+import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
+import ModalWindow from './modal-window';
+import Login from './login';
 
 interface RegistrationProps {
+  setIsOpenReg: React.Dispatch<React.SetStateAction<boolean>>;
   onCloseModal: () => void;
+  isOpenLog: boolean;
+  setIsOpenLog: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Registration({ onCloseModal }: RegistrationProps) {
+export default function Registration({ setIsOpenReg, onCloseModal, isOpenLog, setIsOpenLog }: RegistrationProps) {
   return (
-    <div className="flex flex-col gap-10 relative p-16">
+    <div className="flex flex-col relative p-16">
       <Button type={'button'} onClick={onCloseModal} className="absolute top-5 right-5 stroke-black">
         <svg width={32} height={32}>
           <use href="/icons/icons.svg#icon-close"></use>
         </svg>
       </Button>
-      <div>
+      <div className='mb-10'>
         <h3 className="font-medium text-[40px] leading-tight tracking-tight mb-5">Registration</h3>
         <p className="max-w-[438px] leading-snug text-text-color-muted">
           Thank you for your interest in our platform! In order to register, we
           need some information. Please provide us with the following information.
         </p>
       </div>
-      <Button
-        type={'submit'}
-        className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover"
+
+      <RegistrationForm />
+
+      <div className="flex gap-4 text-sm">
+        <p className="text-text-color-muted">Have the account?</p>
+        <Button
+          type={'button'}
+          className={'underline decoration-solid decoration-black'}
+          onClick={() => {
+            handleCloseModal(setIsOpenReg)();
+            setTimeout(() => {
+              handleOpenModal(setIsOpenLog)();
+            }, 200);
+          }}
+        >
+          Login
+        </Button>
+      </div>
+
+      <ModalWindow
+        isOpenModal={isOpenLog}
+        onCloseModal={handleCloseModal(setIsOpenLog)}
       >
-        Sign Up
-      </Button>
+        <Login onCloseModal={handleCloseModal(setIsOpenLog)} />
+      </ModalWindow>
     </div>
   );
 }

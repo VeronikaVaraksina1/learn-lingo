@@ -26,7 +26,7 @@ export default function AuthMenu() {
       </ModalWindow>
 
       <ModalWindow isOpenModal={isOpenReg} onCloseModal={handleCloseModal(setIsOpenReg)}>
-        <Registration onCloseModal={handleCloseModal(setIsOpenReg)} />
+        <Registration setIsOpenReg={setIsOpenReg} onCloseModal={handleCloseModal(setIsOpenReg)} setIsOpenLog={setIsOpenLog} />
       </ModalWindow>
     </div>
   );

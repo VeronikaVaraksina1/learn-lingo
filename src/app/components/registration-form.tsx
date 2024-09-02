@@ -6,16 +6,18 @@ import Button from './button';
 import * as Yup from 'yup';
 
 interface FormValues {
+  name: string;
   email: string;
   password: string;
 }
 
 const loginSchema = Yup.object({
+  name: Yup.string().min(2, 'Name must be at least 2 characters').max(30, 'Name must be no more than 30 characters').required('Enter your name'),
   email: Yup.string().email('Invalid email address').required('Enter your email'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').required('Enter your password')
+  password: Yup.string().min(6, 'Password must be at least 6 characters').max(30, 'Password must be no more than 30 characters').required('Enter your password')
 })
 
-export default function LoginForm() {
+export default function RegistrationForm() {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
@@ -24,6 +26,7 @@ export default function LoginForm() {
 
   const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
     const user = {
+      name: values.name,
       email: values.email,
       password: values.password,
     };
@@ -33,8 +36,18 @@ export default function LoginForm() {
   };
 
   return (
-    <Formik initialValues={{ email: '', password: '' }} onSubmit={handleSubmit} validationSchema={loginSchema}>
+    <Formik initialValues={{ name: '', email: '', password: '' }} onSubmit={handleSubmit} validationSchema={loginSchema}>
       <Form>
+      <div className='relative'>
+          <Field
+            name='name'
+            type='text'
+            placeholder='Name'
+            className='input h-[54px] mb-[18px]'
+          />
+          <ErrorMessage name='name' component='p' className='absolute top-1 left-3 text-xs text-red' />
+        </div>
+
         <div className='relative'>
           <Field
             name='email'
@@ -65,11 +78,11 @@ export default function LoginForm() {
         </div>
 
         <Button
-          type='submit'
-          className='w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5'
-        >
-          Log In
-        </Button>
+        type={'submit'}
+        className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5"
+      >
+        Sign Up
+      </Button>
       </Form>
     </Formik>
   );

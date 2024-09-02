@@ -22,7 +22,7 @@ export default function AuthMenu() {
       <Button type={"button"} onClick={handleOpenModal(setIsOpenReg)} className={'bg-black text-white font-bold leading-tight rounded-xl px-[39px] py-3.5 hover:bg-text-color-muted focus:bg-text-color-muted transition-smooth'}>Registration</Button>
       
       <ModalWindow isOpenModal={isOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)}>
-        <Login onCloseModal={handleCloseModal(setIsOpenLog)} />
+        <Login setIsOpenLog={setIsOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} setIsOpenReg={setIsOpenReg} />
       </ModalWindow>
 
       <ModalWindow isOpenModal={isOpenReg} onCloseModal={handleCloseModal(setIsOpenReg)}>

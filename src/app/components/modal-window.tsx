@@ -28,5 +28,5 @@ export default function ModalWindow({ children, isOpenModal, onCloseModal }: Mod
 
   Modal.setAppElement("#modal")
 
-  return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal} style={customStyles}>{children}</Modal>
+  return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal} style={customStyles} closeTimeoutMS={250}>{children}</Modal>
 };

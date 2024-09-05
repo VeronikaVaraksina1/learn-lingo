@@ -6,6 +6,10 @@ import { auth } from '../firebaseConfig';
 
 interface AuthContextType {
   currentUser: User | null;
+  isOpenLog: boolean;
+  setIsOpenLog: (isOpen: boolean) => void;
+  isOpenReg: boolean;
+  setIsOpenReg: (isOpen: boolean) => void;
 }
 
 interface AuthProviderProps {
@@ -16,6 +20,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [isOpenLog, setIsOpenLog] = useState(false);
+  const [isOpenReg, setIsOpenReg] = useState(false);
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
@@ -26,17 +32,17 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return  (
-    <AuthContext.Provider value={{ currentUser }}>
+    <AuthContext.Provider value={{ currentUser, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
       {children}
     </AuthContext.Provider>
   )
 }
 
 // Хук для доступу до контексту
-export const useAuth = (): AuthContextType => {
+export const useAppContext = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useAppContext must be used within an AuthProvider');
   }
   return context;
 };

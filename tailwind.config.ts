@@ -8,7 +8,7 @@ const config: Config = {
         'bg-color': '#ffffff',
         'text-color-main': '#121417',
         'text-color-muted': 'rgba(18, 20, 23, 0.7)',
-        'pale-black': 'rgba(18, 20, 23, 0.1)',
+        'pale-black': 'rgba(18, 20, 23, 0.2)',
         'text-color-gray': '#8a8a89',
         'black': '#121417',
         'white': '#ffffff',

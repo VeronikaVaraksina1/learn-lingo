@@ -1,12 +1,12 @@
 'use client';
 
 import React from 'react';
-import { useAuth } from './auth-provider';
+import { useAppContext } from './auth-provider';
 import Button from './button';
 import { logout } from '../../../utils/auth';
 
 export default function UserMenu() {
-  const { currentUser } = useAuth();
+  const { currentUser } = useAppContext();
   return (
     <div className="flex flex-wrap gap-4 justify-center items-center">
       <p className="font-medium italic text-red">

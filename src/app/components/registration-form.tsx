@@ -27,8 +27,6 @@ const regiastrationSchema = Yup.object({
 export default function RegistrationForm({ onCloseModal }: RegistrationFormProps) {
   const router = useRouter();
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);

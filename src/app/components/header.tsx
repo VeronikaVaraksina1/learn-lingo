@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Navigation from './navigation';
 import Logo from './logo';
 import AuthMenu from './auth-menu';
-import { useAuth } from './auth-provider';
+import { useAppContext } from './auth-provider';
 import UserMenu from './user-menu';
 
 interface HeaderProps {
@@ -12,11 +12,11 @@ interface HeaderProps {
 }
 
 export default function Header({ children }: HeaderProps) {
-  const { currentUser } = useAuth();
+  const { currentUser } = useAppContext();
 
   return (
     <header>
-      <div className="flex justify-between items-center px-16 py-5">
+      <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
         <Logo />
         <Navigation />
         {currentUser ? <UserMenu /> : <AuthMenu /> }

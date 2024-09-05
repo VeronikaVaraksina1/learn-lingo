@@ -4,7 +4,7 @@ import Feature from './components/feature';
 
 export default function Home() {
   return (
-    <div className="bg-bg-color max-w-[1440px] px-16 flex flex-col justify-center items-center gap-6 pb-8">
+    <div className="bg-bg-color flex flex-col justify-center items-center gap-6 max-w-[1440px] px-16 pb-8 mx-auto">
       <div className="flex flex-wrap gap-[24px]">
         <div className="flex gap-16 flex-col bg-guyabano px-16 py-[98px] mx-auto max-w-[720px] rounded-[30px]">
           <div className="flex flex-col gap-8">

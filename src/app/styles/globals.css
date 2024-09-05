@@ -83,6 +83,10 @@ select:hover {
     @apply before:bg-transparent before:absolute before:bottom-[-5px] before:left-0 before:w-full before:h-0.5 before:transition-smooth before:hover:bg-light-red;
   }
 
+  .pseudoelement-right-line {
+    @apply before:absolute before:right-[-15px] before:w-[1px] before:top-1 before:h-4 before:bg-pale-black;
+  }
+
   .active-link {
     @apply before:bg-light-red before:absolute before:bottom-[-5px] before:left-0 before:w-full before:h-0.5;
   }

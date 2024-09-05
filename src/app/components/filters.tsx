@@ -28,10 +28,10 @@ export default function Filters() {
   ];
 
   return (
-    <div className="flex gap-5">
-      <CustomSelect label="Languages" options={languageOptions} placeholder={''} width='221px' />
-      <CustomSelect label="Level of knowledge" options={levelOptions} placeholder={''} width='198px' />
-      <CustomSelect label="Price" options={priceOptions} placeholder={''} width='124px' />
+    <div className="flex gap-5 mb-8">
+      <CustomSelect label="Languages" options={languageOptions} placeholder={'Language'} width='221px' />
+      <CustomSelect label="Level of knowledge" options={levelOptions} placeholder={'Level'} width='198px' />
+      <CustomSelect label="Price" options={priceOptions} placeholder={'Price'} width='124px' />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
 import Button from './button';
 import * as Yup from 'yup';
+import { login } from '../../../utils/auth';
 
 interface FormValues {
   email: string;
@@ -22,13 +23,20 @@ export default function LoginForm() {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-    const user = {
-      email: values.email,
-      password: values.password,
-    };
+  const handleSubmit = async (values: FormValues, actions: FormikHelpers<FormValues>) => {
+    // const user = {
+    //   email: values.email,
+    //   password: values.password,
+    // };
 
-    console.log(user);
+    try {
+      const user = await login(values.email, values.password);
+      console.log('Login successful');
+      console.log(user);
+    } catch (error) {
+      console.log('Login error', error);
+    }
+
     actions.resetForm();
   };
 

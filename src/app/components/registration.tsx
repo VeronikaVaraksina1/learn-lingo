@@ -28,7 +28,7 @@ export default function Registration({ setIsOpenReg, onCloseModal, isOpenLog, se
         </p>
       </div>
 
-      <RegistrationForm />
+      <RegistrationForm onCloseModal={setIsOpenReg} />
 
       <div className="flex gap-4 text-sm">
         <p className="text-text-color-muted">Have an account?</p>

@@ -1,9 +1,12 @@
 'use client';
 
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import React, { useState } from 'react';
 import Button from './button';
+import { register } from '../../../utils/auth';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
+import { useRouter } from 'next/navigation';
+import { handleCloseModal } from '../../../utils/modalHelpers';
 
 interface FormValues {
   name: string;
@@ -11,32 +14,48 @@ interface FormValues {
   password: string;
 }
 
-const loginSchema = Yup.object({
+interface RegistrationFormProps {
+  onCloseModal: () => void;
+}
+
+const regiastrationSchema = Yup.object({
   name: Yup.string().min(2, 'Name must be at least 2 characters').max(30, 'Name must be no more than 30 characters').required('Enter your name'),
   email: Yup.string().email('Invalid email address').required('Enter your email'),
   password: Yup.string().min(6, 'Password must be at least 6 characters').max(30, 'Password must be no more than 30 characters').required('Enter your password')
 })
 
-export default function RegistrationForm() {
+export default function RegistrationForm({ onCloseModal }: RegistrationFormProps) {
+  const router = useRouter();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleSubmit = (values: FormValues, actions: FormikHelpers<FormValues>) => {
-    const user = {
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    };
+  const handleSubmit = async (values: FormValues, actions: FormikHelpers<FormValues>) => {
+    setLoading(true);
+    setError('');
 
-    console.log(user);
+    try {
+      const createdUser = await register(values.email, values.password, values.name);
+      console.log('Registration successful');
+      console.log(createdUser);
+      handleCloseModal(onCloseModal)();
+      router.push("/teachers");
+    } catch (error) {
+      console.log('Registration error', error);
+    }
     actions.resetForm();
+    
   };
 
   return (
-    <Formik initialValues={{ name: '', email: '', password: '' }} onSubmit={handleSubmit} validationSchema={loginSchema}>
+    <Formik initialValues={{ name: '', email: '', password: '' }} onSubmit={handleSubmit} validationSchema={regiastrationSchema}>
       <Form>
       <div className='relative'>
           <Field

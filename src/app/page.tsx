@@ -21,7 +21,8 @@ export default function Home() {
               connecting with highly qualified and experienced tutors.
             </p>
           </div>
-          <Button type={'button'}
+          <Button
+            type={'button'}
             className={
               'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl red-button-hover'
             }
@@ -29,12 +30,13 @@ export default function Home() {
             Get started
           </Button>
         </div>
-        <div className='mx-auto'>
+        <div className="mx-auto">
           <Image
             src={'/images/bg.jpg'}
             alt={'girl and a laptop'}
             width={568}
             height={530}
+            property={'true'}
           />
         </div>
       </div>

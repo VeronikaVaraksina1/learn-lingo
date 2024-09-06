@@ -10,7 +10,7 @@ export default function TeachersList({ teachers }: TeachersListProps) {
   return (
     <ul className='flex flex-col gap-8'>
       {teachers.map((teacher) => (
-        <li key={`${teacher.lessons_done}-${teacher.name}-${teacher.surname}`}>
+        <li className="max-w-[1184px] p-6 rounded-3xl bg-white" key={`${teacher.lessons_done}-${teacher.name}-${teacher.surname}`}>
           <TeacherCard teacher={teacher} />
         </li>
       ))}

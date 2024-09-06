@@ -7,5 +7,5 @@ interface HashtagItemProps {
 }
 
 export default function HashtagItem({ children, className }: HashtagItemProps) {
-  return <p className={clsx('inline-block py-2 px-3 border border-solid border-pale-black rounded-[38px]', className)}>{children}</p>;
+  return <p className={clsx('inline-block py-2 px-3 border border-solid border-pale-black rounded-[38px]', className)}>{`#${children}`}</p>;
 }

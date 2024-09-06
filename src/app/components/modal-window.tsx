@@ -10,7 +10,7 @@ interface ModalWindowProps {
 export default function ModalWindow({ children, isOpenModal, onCloseModal }: ModalWindowProps) {
   const customStyles = {
     content: {
-      maxWidth: '800px',
+      maxWidth: '1184px',
       top: '50%',
       left: '50%',
       right: 'auto',

@@ -33,10 +33,11 @@ export default function Home() {
         <div className="mx-auto">
           <Image
             src={'/images/bg.jpg'}
-            alt={'girl and a laptop'}
+            alt={'A girl and a laptop'}
             width={568}
             height={530}
-            property={'true'}
+            property={'false'}
+            quality={100}
           />
         </div>
       </div>

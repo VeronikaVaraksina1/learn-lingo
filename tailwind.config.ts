@@ -10,6 +10,7 @@ const config: Config = {
         'text-color-muted': 'rgba(18, 20, 23, 0.7)',
         'pale-black': 'rgba(18, 20, 23, 0.2)',
         'text-color-gray': '#8a8a89',
+        'pastel-red': '#fceeed',
         'black': '#121417',
         'white': '#ffffff',
         'guyabano': '#f8f8f8',

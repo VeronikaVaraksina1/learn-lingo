@@ -4,9 +4,10 @@ import React, { useState } from 'react';
 import Button from './button';
 import { register } from '../../../utils/auth';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { handleCloseModal } from '../../../utils/modalHelpers';
+import { regiastrationSchema } from '../schemas/schemas';
+import toast from 'react-hot-toast';
 
 interface FormValues {
   name: string;
@@ -17,12 +18,6 @@ interface FormValues {
 interface RegistrationFormProps {
   onCloseModal: () => void;
 }
-
-const regiastrationSchema = Yup.object({
-  name: Yup.string().min(2, 'Name must be at least 2 characters').max(30, 'Name must be no more than 30 characters').required('Enter your name'),
-  email: Yup.string().email('Invalid email address').required('Enter your email'),
-  password: Yup.string().min(6, 'Password must be at least 6 characters').max(30, 'Password must be no more than 30 characters').required('Enter your password')
-})
 
 export default function RegistrationForm({ onCloseModal }: RegistrationFormProps) {
   const router = useRouter();
@@ -40,13 +35,13 @@ export default function RegistrationForm({ onCloseModal }: RegistrationFormProps
     setError('');
 
     try {
-      const createdUser = await register(values.email, values.password, values.name);
-      console.log('Registration successful');
-      console.log(createdUser);
+      await register(values.email, values.password, values.name);
+      setLoading(false);
+      toast.success('You are successfully registered!');
       handleCloseModal(onCloseModal)();
       router.push("/teachers");
     } catch (error) {
-      console.log('Registration error', error);
+      toast.error('Registration error. Please try again!');
     }
     actions.resetForm();
     

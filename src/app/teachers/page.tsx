@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { fetchTeachers } from '../../../utils/fetchTeachers';
 import TeachersList from '../components/teachers-list';
+import { Toaster } from 'react-hot-toast';
 
 export interface Review {
   reviewer_name: string;
@@ -46,6 +47,7 @@ export default function TeachersPage() {
       <div className="max-w-[1184px] py-8 px-16 mx-auto">
         <TeachersList teachers={teachers} />
       </div>
+      <Toaster />
     </div>
   );
 }

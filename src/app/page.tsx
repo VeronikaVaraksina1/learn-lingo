@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Button from './components/button';
 import Feature from './components/feature';
+import { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   return (
@@ -55,6 +56,8 @@ export default function Home() {
           <Feature number={'200'} description={'Tutor nationalities'} />
         </li>
       </ul>
+
+      <Toaster />
     </div>
   );
 }

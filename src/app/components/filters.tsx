@@ -1,9 +1,13 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import CustomSelect from './custom-select';
 
 export default function Filters() {
+  const [language, setLanguage] = useState('');
+  const [level, setLevel] = useState('');
+  const [price, setPrice] = useState('');
+
   const languageOptions = [
     { value: 'fra', label: 'French' },
     { value: 'eng', label: 'English' },

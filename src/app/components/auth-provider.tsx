@@ -6,6 +6,7 @@ import { auth } from '../firebaseConfig';
 
 interface AuthContextType {
   currentUser: User | null;
+  setCurrentUser: (user: User | null) => void;
   isOpenLog: boolean;
   setIsOpenLog: (isOpen: boolean) => void;
   isOpenReg: boolean;
@@ -25,14 +26,18 @@ export default function AuthProvider({ children }: AuthProviderProps) {
 
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, (user) => {
-      setCurrentUser(user);
+      if (user) {
+        setCurrentUser(user);
+      } else {
+        setCurrentUser(null);
+      }
     });
 
     return () => unsub();
   }, []);
 
   return  (
-    <AuthContext.Provider value={{ currentUser, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
       {children}
     </AuthContext.Provider>
   )

@@ -7,6 +7,8 @@ import { login } from '../../../utils/auth';
 import { useForm } from 'react-hook-form';
 import { loginSchema } from '../schemas/schemas';
 import toast from 'react-hot-toast';
+import { useAppContext } from './auth-provider';
+import { handleCloseModal } from '../../../utils/modalHelpers';
 
 interface FormValues {
   email: string;
@@ -19,12 +21,9 @@ interface LoginData {
 };
 
 export default function LoginForm() {
+  const { setIsOpenLog } = useAppContext();
   const [showPassword, setShowPassword] = useState(false);
-  const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({
-    defaultValues: {
-      email: '',
-      password: ''},
-    resolver: yupResolver(loginSchema)});
+  const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(loginSchema) });
 
 
   const handleShowPassword = () => {
@@ -35,6 +34,7 @@ export default function LoginForm() {
     try {
       await login(data.email, data.password);
       toast.success('Login successful');
+      handleCloseModal(setIsOpenLog)();
     } catch (error) {
       toast.error('Login error. Please try again!');
     }

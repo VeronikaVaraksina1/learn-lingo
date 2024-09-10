@@ -22,7 +22,7 @@ interface LoginData {
 
 export default function LoginForm() {
   const { setIsOpenLog } = useAppContext();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(loginSchema) });
 
 
@@ -32,9 +32,12 @@ export default function LoginForm() {
 
   const submit = async (data: LoginData) => {
     try {
-      await login(data.email, data.password);
-      toast.success('Login successful');
-      handleCloseModal(setIsOpenLog)();
+      const user = await login(data.email, data.password);
+      
+      if (user) {
+        toast.success('Login successful');
+        handleCloseModal(setIsOpenLog)();
+      }
     } catch (error) {
       toast.error('Login error. Please try again!');
     }

@@ -6,6 +6,10 @@ export const handleAuthError = (error) => {
       toast.error('Invalid email format.');
       break;
 
+    case 'auth/email-already-in-use':
+      toast.error('An account is already registered for this email');
+      break;
+
     case 'auth/user-disabled':
       toast.error('This user account has been disabled.');
       break;

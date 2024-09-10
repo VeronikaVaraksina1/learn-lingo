@@ -3,6 +3,7 @@ import './styles/globals.css';
 import { Roboto } from 'next/font/google';
 import Header from './components/header';
 import AuthProvider from './components/auth-provider';
+import clsx from 'clsx';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -17,9 +18,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
-      <body className={roboto.className}>
+      <body className={clsx(roboto.className)}>
         <AuthProvider>
           <Header>
             <main>{children}</main>

@@ -14,7 +14,7 @@ interface TeacherCardProps {
 
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);

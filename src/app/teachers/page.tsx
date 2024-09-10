@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchTeachers } from '../../../utils/fetchTeachers';
 import TeachersList from '../components/teachers-list';
 import { Toaster } from 'react-hot-toast';
+import Loader from '../components/loader';
 
 export interface Review {
   reviewer_name: string;
@@ -28,25 +29,32 @@ export interface Teacher {
 
 export default function TeachersPage() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  
+  const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setLoading(true);
         const result = await fetchTeachers();
         setTeachers(result);
+        setLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchData();
-  }, []);  
+  }, []);
 
   return (
     <div className="bg-guyabano w-full h-full">
-      <div className="max-w-[1184px] py-8 px-16 mx-auto">
-        <TeachersList teachers={teachers} />
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <div className="max-w-[1184px] py-8 px-16 mx-auto">
+          <TeachersList teachers={teachers} />
+        </div>
+      )}
       <Toaster />
     </div>
   );

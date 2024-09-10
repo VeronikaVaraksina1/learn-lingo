@@ -6,20 +6,16 @@ import LoginForm from './login-form';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import ModalWindow from './modal-window';
 import Registration from './registration';
+import { useAppContext } from './auth-provider';
 
 interface LoginProps {
-  setIsOpenLog: React.Dispatch<React.SetStateAction<boolean>>;
   onCloseModal: () => void;
   isOpenReg: boolean;
-  setIsOpenReg: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function Login({
-  setIsOpenLog,
-  onCloseModal,
-  isOpenReg,
-  setIsOpenReg,
-}: LoginProps) {
+export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
+  const { isOpenLog, setIsOpenLog, setIsOpenReg } = useAppContext();
+  // setIsOpenLog={setIsOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} setIsOpenReg={setIsOpenReg}
   return (
     <div className="flex flex-col relative p-16">
       <Button
@@ -63,7 +59,7 @@ export default function Login({
         isOpenModal={isOpenReg}
         onCloseModal={handleCloseModal(setIsOpenReg)}
       >
-        <Registration onCloseModal={handleCloseModal(setIsOpenReg)} />
+        <Registration isOpenLog={isOpenLog} onCloseModal={handleCloseModal(setIsOpenReg)} />
       </ModalWindow>
     </div>
   );

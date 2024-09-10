@@ -25,9 +25,9 @@ interface RegistrationData {
 }
 
 export default function RegistrationForm() {
-  const { setCurrentUser, setIsOpenReg } = useAppContext();
+  const { setIsOpenReg } = useAppContext();
   const router = useRouter();
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(regiastrationSchema) });
 
   const handleShowPassword = () => {
@@ -41,15 +41,11 @@ export default function RegistrationForm() {
 
       if (user) {
         await updateProfile(user, { displayName });
+
+        toast.success('You are successfully registered!');
+        handleCloseModal(setIsOpenReg)();
       }
 
-      setCurrentUser({
-        ...user,
-        displayName: displayName,
-      });
-      
-      toast.success('You are successfully registered!');
-      handleCloseModal(setIsOpenReg)();
       router.push('/teachers');
     } catch (error) {
       toast.error('Registration error. Please try again!');

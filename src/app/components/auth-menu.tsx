@@ -6,10 +6,10 @@ import ModalWindow from './modal-window';
 import Login from './login';
 import Registration from './registration';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
+import { useAppContext } from './auth-provider';
 
 export default function AuthMenu() {
-  const [isOpenLog, setIsOpenLog] = useState(false);
-  const [isOpenReg, setIsOpenReg] = useState(false);
+  const {isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg } = useAppContext();
 
   return (
     <div className='flex flex-wrap gap-4 justify-center items-center'>
@@ -22,11 +22,11 @@ export default function AuthMenu() {
       <Button type={"button"} onClick={handleOpenModal(setIsOpenReg)} className={'bg-black text-white font-bold leading-tight rounded-xl px-[39px] py-3.5 hover:bg-text-color-muted focus:bg-text-color-muted transition-smooth'}>Registration</Button>
       
       <ModalWindow isOpenModal={isOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)}>
-        <Login setIsOpenLog={setIsOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} setIsOpenReg={setIsOpenReg} />
+        <Login onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} />
       </ModalWindow>
 
       <ModalWindow isOpenModal={isOpenReg} onCloseModal={handleCloseModal(setIsOpenReg)}>
-        <Registration setIsOpenReg={setIsOpenReg} onCloseModal={handleCloseModal(setIsOpenReg)} setIsOpenLog={setIsOpenLog} />
+        <Registration isOpenLog={isOpenLog} onCloseModal={handleCloseModal(setIsOpenReg)} />
       </ModalWindow>
     </div>
   );

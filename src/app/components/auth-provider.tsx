@@ -6,6 +6,8 @@ import { auth } from '../firebaseConfig';
 
 interface AuthContextType {
   currentUser: User | null;
+  favorites: string[];
+  setFavorites: (favorites: string[]) => void;
   isOpenLog: boolean;
   setIsOpenLog: (isOpen: boolean) => void;
   isOpenReg: boolean;
@@ -19,6 +21,7 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
+  const [favorites, setFavorites] = useState<string[] | null>(null);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [isOpenLog, setIsOpenLog] = useState<boolean>(false);
   const [isOpenReg, setIsOpenReg] = useState<boolean>(false);
@@ -36,7 +39,7 @@ export default function AuthProvider({ children }: AuthProviderProps) {
   }, []);
 
   return  (
-    <AuthContext.Provider value={{ currentUser, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
+    <AuthContext.Provider value={{ currentUser, favorites, setFavorites, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
       {children}
     </AuthContext.Provider>
   )

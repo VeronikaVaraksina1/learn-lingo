@@ -7,6 +7,7 @@ import Review from './review';
 import HashtagItem from './hashtag-item';
 import Image from 'next/image';
 import clsx from 'clsx';
+import { useAppContext } from './auth-provider';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -15,6 +16,7 @@ interface TeacherCardProps {
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { favorites, setFavorites } = useAppContext(); 
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -70,7 +72,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
                 </li>
               </ul>
               <Button type="button">
-                <svg className="stroke-black fill-none" width={26} height={26}>
+                <svg className={clsx(favorites ? 'stroke-red, fill-light-red' : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth')} width={26} height={26}>
                   <use href="/icons/icons.svg#icon-heart"></use>
                 </svg>
               </Button>

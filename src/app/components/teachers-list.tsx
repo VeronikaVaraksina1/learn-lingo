@@ -3,22 +3,25 @@
 import React, { useEffect, useState } from 'react';
 import TeacherCard from './teacher-card';
 import { Teacher } from '../teachers/page';
+import { useAppContext } from './auth-provider';
 
 interface TeachersListProps {
   teachers: Teacher[];
 }
 
 export default function TeachersList({ teachers }: TeachersListProps) {
+  const { favorites, setFavorites } = useAppContext(); 
   const [filteredTeachers, setFilteredTeachers] = useState(teachers);
 
   useEffect(() => {
+    const favoriteTeachers = localStorage.getItem('favoriteTeachersLearnLingo');
+    setFavorites(favoriteTeachers);
     setFilteredTeachers(teachers);
   }, [teachers]);
 
   // const filterTeachers = () => {
-  //   return filteredTeachers.filter((teacher) => {
-  //     const language = 
-  //   })
+
+  //   // return filteredTeachers.filter((teacher) => ())
   // }
 
   return (

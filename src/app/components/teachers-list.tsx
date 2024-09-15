@@ -13,20 +13,19 @@ export default function TeachersList({ teachers }: TeachersListProps) {
   const { favorites, setFavorites } = useAppContext(); 
   const [filteredTeachers, setFilteredTeachers] = useState(teachers);
 
-  useEffect(() => {
-    const favoriteTeachers = localStorage.getItem('favoriteTeachersLearnLingo');
-    setFavorites(favoriteTeachers);
-    setFilteredTeachers(teachers);
-  }, [teachers]);
+  // useEffect(() => {
+  //   const favoriteTeachers = localStorage.getItem('favoriteTeachersLearnLingo');
+  //   setFavorites(favoriteTeachers);
+  //   setFilteredTeachers(teachers);
+  // }, [teachers]);
 
   // const filterTeachers = () => {
-
-  //   // return filteredTeachers.filter((teacher) => ())
+  // return filteredTeachers.filter((teacher) => ())
   // }
 
   return (
     <ul className='flex flex-col gap-8'>
-      {filteredTeachers.map((teacher) => (
+      {teachers.map((teacher) => (
         <li className="max-w-[1184px] p-6 rounded-3xl bg-white" key={`${teacher.lessons_done}-${teacher.name}-${teacher.surname}`}>
           <TeacherCard teacher={teacher} />
         </li>

@@ -18,6 +18,8 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { favorites, setFavorites } = useAppContext(); 
 
+  const handleAddToFavorite = () => {};
+
   const handleToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -109,7 +111,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
             className="underline decoration-solid decoration-black mb-8"
             onClick={handleToggle}
           >
-            Read more
+            <p>{isOpen ? 'Read less' : 'Read more'}</p>
           </Button>
 
           <div className={clsx(isOpen ? 'block' : 'hidden')}>

@@ -8,7 +8,7 @@ export const fetchTeachers = async () => {
     return response.data.teachers;
     
   } catch (error) {
-    console.error("Failed to fetch teachers:", error);
+    console.log(error);
     return null;
   }
 };

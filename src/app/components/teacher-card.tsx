@@ -8,6 +8,7 @@ import HashtagItem from './hashtag-item';
 import Image from 'next/image';
 import clsx from 'clsx';
 import { useAppContext } from './auth-provider';
+import { addFavoriteTeacher, getFavoriteTeachers } from '../../../utils/favorites';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -18,9 +19,42 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { favorites, setFavorites, currentUser } = useAppContext(); 
 
-  const handleAddToFavorite = () => {
-    console.log(currentUser); // інформація про поточного користувача з Firebase, включаючи uid
+  const fetchFavorites = async (id) => {
+    const userId = id; // Змініть на актуальний userId
+    try {
+      const favorites = await getFavoriteTeachers(userId);
+      console.log('Favorite teachers:', favorites);
+      // Тут можна працювати з отриманими даними
+    } catch (error) {
+      console.error('Error fetching favorites:', error);
+    }
+  };
+
+  const handleAddToFavorite = async () => {
+    console.log(currentUser?.uid); // інформація про поточного користувача з Firebase, включаючи uid
     console.log(teacher.id); // id вчителя
+
+    const userId = currentUser?.uid;
+    const teacherId = teacher.id;
+
+    // try {
+    //   fetchFavorites(userId)
+    // } catch (error) {
+    //   console.log(error);
+    // }
+
+    if (!userId || !teacherId) {
+      console.error('User ID or Teacher ID is undefined');
+      return;
+    }
+
+    try {
+      await addFavoriteTeacher(userId, teacherId);
+      console.log('Succes');
+      
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleToggle = () => {

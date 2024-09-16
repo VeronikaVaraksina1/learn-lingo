@@ -13,6 +13,7 @@ export interface Review {
 }
 
 export interface Teacher {
+  id: number;
   name: string;
   surname: string;
   languages: string[];

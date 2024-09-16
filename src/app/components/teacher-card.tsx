@@ -16,9 +16,12 @@ interface TeacherCardProps {
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { favorites, setFavorites } = useAppContext(); 
+  const { favorites, setFavorites, currentUser } = useAppContext(); 
 
-  const handleAddToFavorite = () => {};
+  const handleAddToFavorite = () => {
+    console.log(currentUser); // інформація про поточного користувача з Firebase, включаючи uid
+    console.log(teacher.id); // id вчителя
+  };
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -73,7 +76,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
                   </p>
                 </li>
               </ul>
-              <Button type="button">
+              <Button type="button" onClick={handleAddToFavorite}>
                 <svg className={clsx(favorites ? 'stroke-red, fill-light-red' : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth')} width={26} height={26}>
                   <use href="/icons/icons.svg#icon-heart"></use>
                 </svg>

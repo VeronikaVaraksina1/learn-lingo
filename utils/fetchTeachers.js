@@ -4,9 +4,11 @@ const FIREBASE_URL = 'https://learn-lingo-d7769-default-rtdb.europe-west1.fireba
 
 export const fetchTeachers = async () => {
   try {
-    const response = await axios.get(`${FIREBASE_URL}.json`);
-    return response.data;
+    const response = await axios.get(`${FIREBASE_URL}/teachers.json`);
+    return response.data.teachers;
+    
   } catch (error) {
-    console.log(error);
+    console.error("Failed to fetch teachers:", error);
+    return null;
   }
 };

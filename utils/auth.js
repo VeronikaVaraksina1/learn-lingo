@@ -6,13 +6,10 @@ export const registerUser = async (email, password) => {
   try {
     const credential = await createUserWithEmailAndPassword(auth, email, password);
     const user = credential.user;
-
     return user;
     
   } catch (error) {
     handleAuthError(error); 
-    console.log(error);
-    
   }
 };
 

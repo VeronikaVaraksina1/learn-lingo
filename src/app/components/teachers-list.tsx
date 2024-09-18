@@ -1,27 +1,38 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
-import TeacherCard from './teacher-card';
 import { Teacher } from '../teachers/page';
+import TeacherCard from './teacher-card';
+import React, { useEffect, useState } from 'react';
+import { getFavoriteTeachers } from '../../../utils/favorites';
 import { useAppContext } from './auth-provider';
+import toast from 'react-hot-toast';
 
 interface TeachersListProps {
   teachers: Teacher[];
 }
 
 export default function TeachersList({ teachers }: TeachersListProps) {
-  const { favorites, setFavorites } = useAppContext(); 
+  const { currentUser, setFavorites } = useAppContext(); 
   const [filteredTeachers, setFilteredTeachers] = useState(teachers);
 
-  // useEffect(() => {
-  //   const favoriteTeachers = localStorage.getItem('favoriteTeachersLearnLingo');
-  //   setFavorites(favoriteTeachers);
-  //   setFilteredTeachers(teachers);
-  // }, [teachers]);
+  const userId = currentUser?.uid;
 
-  // const filterTeachers = () => {
-  // return filteredTeachers.filter((teacher) => ())
-  // }
+  useEffect(() => {
+    const fetchFavorites = async () => {      
+      try {
+        if (userId) {
+          const favoriteTeachers = await getFavoriteTeachers(userId);
+          if (favoriteTeachers) {
+            setFavorites(favoriteTeachers);
+          }
+        }
+      } catch (error) {
+        toast.error('Something went wrong! Try again');
+      }
+    };
+
+    fetchFavorites();
+  }, [userId, setFavorites]);
 
   return (
     <ul className='flex flex-col gap-8'>

@@ -1,59 +1,58 @@
 'use client';
 
-import React, { useState } from 'react';
 import { Teacher } from '../teachers/page';
 import Button from './button';
 import Review from './review';
 import HashtagItem from './hashtag-item';
-import Image from 'next/image';
-import clsx from 'clsx';
 import { useAppContext } from './auth-provider';
-import { addFavoriteTeacher, getFavoriteTeachers } from '../../../utils/favorites';
+import Image from 'next/image';
+import React, { useEffect, useState } from 'react';
+import { addFavoriteTeacher, removeFavoriteTeacher } from '../../../utils/favorites';
+import clsx from 'clsx';
+import toast from 'react-hot-toast';
 
 interface TeacherCardProps {
   teacher: Teacher;
 }
 
 export default function TeacherCard({ teacher }: TeacherCardProps) {
-  const { name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
+  const { id, name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const { favorites, setFavorites, currentUser } = useAppContext(); 
+  const { favorites, setFavorites, currentUser } = useAppContext();
+  const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  const fetchFavorites = async (id) => {
-    const userId = id; // Змініть на актуальний userId
-    try {
-      const favorites = await getFavoriteTeachers(userId);
-      console.log('Favorite teachers:', favorites);
-      // Тут можна працювати з отриманими даними
-    } catch (error) {
-      console.error('Error fetching favorites:', error);
+  const userId = currentUser?.uid;
+  const teacherId = teacher.id;
+
+  useEffect(() => {
+    if (favorites && userId) {
+      const isFavoriteTeacher = favorites.some((item) => item === id);
+      setIsFavorite(isFavoriteTeacher);
     }
-  };
+  }, [id, favorites, userId]);
 
   const handleAddToFavorite = async () => {
-    console.log(currentUser?.uid); // інформація про поточного користувача з Firebase, включаючи uid
-    console.log(teacher.id); // id вчителя
-
-    const userId = currentUser?.uid;
-    const teacherId = teacher.id;
-
-    // try {
-    //   fetchFavorites(userId)
-    // } catch (error) {
-    //   console.log(error);
-    // }
-
     if (!userId || !teacherId) {
-      console.error('User ID or Teacher ID is undefined');
+      toast.error('User ID or Teacher ID is undefined');
       return;
     }
 
     try {
-      await addFavoriteTeacher(userId, teacherId);
-      console.log('Succes');
-      
+      const isTeacherFavorite = favorites.includes(teacherId);
+
+      if (!isTeacherFavorite) {
+        const updated = await addFavoriteTeacher(userId, teacherId);
+        setFavorites(updated);
+        setIsFavorite(true);
+        toast.success('Added to "Favorites"');
+      } else {
+        const response = await removeFavoriteTeacher(userId, teacherId);
+        setFavorites(response);
+        setIsFavorite(false);
+        toast.success('Removed from "Favorites"');
+      }
     } catch (error) {
-      console.log(error);
+      toast.error('Something went wrong! Try again');
     }
   };
 
@@ -111,7 +110,15 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
                 </li>
               </ul>
               <Button type="button" onClick={handleAddToFavorite}>
-                <svg className={clsx(favorites ? 'stroke-red, fill-light-red' : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth')} width={26} height={26}>
+                <svg
+                  className={clsx(
+                    isFavorite
+                      ? 'stroke-red, fill-light-red'
+                      : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth'
+                  )}
+                  width={26}
+                  height={26}
+                >
                   <use href="/icons/icons.svg#icon-heart"></use>
                 </svg>
               </Button>

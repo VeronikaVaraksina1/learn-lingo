@@ -7,39 +7,62 @@ import { fetchTeachers } from '../../../utils/fetchTeachers';
 import TeacherCard from '../components/teacher-card';
 import TeachersList from '../components/teachers-list';
 import Loader from '../components/loader';
-import { Toaster } from 'react-hot-toast';
-import { getFavoriteTeachers, getFavoriteTeachersById } from '../../../utils/favorites';
+import toast, { Toaster } from 'react-hot-toast';
+import { getFavoriteTeachers } from '../../../utils/favorites';
+import Link from 'next/link';
 
 export default function FavoritesPage() {
-  const { currentUser } = useAppContext();
-  const [favoriteTeachers, setFavoriteTeachers] = useState<Teacher[]>([]);
+  const { currentUser, favorites, setFavorites } = useAppContext();
   const [loading, setLoading] = useState<boolean>(false);
 
+  console.log(favorites);
+
   useEffect(() => {
+    if (!currentUser) {
+      return;
+    }
+
+    setLoading(true);
     const fetchFavoriteTeachers = async () => {
-      if (!currentUser) {
-        return;
+      try {
+        const favoriteTeachers = await getFavoriteTeachers(currentUser.uid);
+
+        if (favoriteTeachers) {
+          setFavorites(favoriteTeachers);
+        }
+      } catch (error) {
+        toast.error('Something went wrong! Try again');
       }
-
-      const favoriteTeachers = await getFavoriteTeachers(currentUser.uid);
-      
-      const teachersPromises = favoriteTeachers.map((id: number) => getFavoriteTeachersById(id));
-      const teachers = await Promise.all(teachersPromises);
-
-      setFavoriteTeachers(teachers.filter(Boolean));
     };
 
     fetchFavoriteTeachers();
     setLoading(false);
-  }, [currentUser]);
+  }, [currentUser, setFavorites]);
 
   return (
-    <div className="bg-guyabano w-full h-full">
+    <div className="bg-guyabano w-full h-[87vh]">
       {loading ? (
         <Loader />
       ) : (
         <div className="max-w-[1184px] py-8 px-16 mx-auto">
-          <TeachersList teachers={favoriteTeachers} />
+          {favorites.length === 0 ? (
+            <div className="flex flex-col gap-8 justify-center items-center">
+              <p className="text-xl italic font-medium">
+                You don&apos;t have favorite teachers yet
+              </p>
+              <Link
+                className="flex gap-2 justify-center items-center text-xl bg-red px-3 py-2 rounded-xl red-button-hover"
+                href={'/teachers'}
+              >
+                <p>Go to the catalog of teachers</p>
+                <svg width={14} height={14}>
+                  <use href="/icons/icons.svg#icon-arrow-right"></use>
+                </svg>
+              </Link>
+            </div>
+          ) : (
+            <TeachersList teachers={favorites} />
+          )}
         </div>
       )}
       <Toaster />

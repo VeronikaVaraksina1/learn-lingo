@@ -17,8 +17,8 @@ interface TeacherCardProps {
 
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { id, name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { favorites, setFavorites, currentUser } = useAppContext();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const userId = currentUser?.uid;
@@ -26,22 +26,22 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
 
   useEffect(() => {
     if (favorites && userId) {
-      const isFavoriteTeacher = favorites.some((item) => item === id);
+      const isFavoriteTeacher = favorites.some((item) => item.id === id);
       setIsFavorite(isFavoriteTeacher);
     }
   }, [id, favorites, userId]);
 
   const handleAddToFavorite = async () => {
-    // if (!userId || !teacherId) {
-    //   toast.error('User ID or Teacher ID is undefined');
-    //   return;
-    // }
+    if (!userId && teacherId !== null && teacherId !== undefined) {
+      toast.error('User ID or Teacher ID is undefined');
+      return;
+    }
 
     try {
-      const isTeacherFavorite = favorites.includes(teacherId);
+      const isTeacherFavorite = favorites.some((item) => item.id === id);
 
       if (!isTeacherFavorite) {
-        const updated = await addFavoriteTeacher(userId, teacherId);
+        const updated = await addFavoriteTeacher(userId, teacher);
         setFavorites(updated);
         setIsFavorite(true);
         toast.success('Added to "Favorites"');
@@ -147,7 +147,6 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
                   </p>
                 </li>
               </ul>
-              <p className="font-normal mb-8">{experience}</p>
             </div>
           </div>
           <Button
@@ -159,6 +158,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
           </Button>
 
           <div className={clsx(isOpen ? 'block' : 'hidden')}>
+            <p className="font-normal mb-8">{experience}</p>
             <ul>
               {reviews.map((review, index) => (
                 <li key={`${review.reviewer_name}-${index}`}>

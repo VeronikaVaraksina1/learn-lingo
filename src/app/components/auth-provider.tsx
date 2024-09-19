@@ -3,11 +3,12 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
+import { Teacher } from '../teachers/page';
 
 interface AuthContextType {
   currentUser: User | null;
-  favorites: number[];
-  setFavorites: (favorites: number[]) => void;
+  favorites: Teacher[];
+  setFavorites: (favorites: Teacher[]) => void;
   isOpenLog: boolean;
   setIsOpenLog: (isOpen: boolean) => void;
   isOpenReg: boolean;
@@ -22,7 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [favorites, setFavorites] = useState<number[]>([]);
+  const [favorites, setFavorites] = useState<Teacher[]>([]);
   const [isOpenLog, setIsOpenLog] = useState<boolean>(false);
   const [isOpenReg, setIsOpenReg] = useState<boolean>(false);
 

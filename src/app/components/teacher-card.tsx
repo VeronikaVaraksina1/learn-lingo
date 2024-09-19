@@ -32,10 +32,10 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   }, [id, favorites, userId]);
 
   const handleAddToFavorite = async () => {
-    if (!userId || !teacherId) {
-      toast.error('User ID or Teacher ID is undefined');
-      return;
-    }
+    // if (!userId || !teacherId) {
+    //   toast.error('User ID or Teacher ID is undefined');
+    //   return;
+    // }
 
     try {
       const isTeacherFavorite = favorites.includes(teacherId);

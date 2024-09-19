@@ -21,8 +21,8 @@ interface AuthProviderProps {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export default function AuthProvider({ children }: AuthProviderProps) {
-  const [favorites, setFavorites] = useState<number[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [favorites, setFavorites] = useState<number[]>([]);
   const [isOpenLog, setIsOpenLog] = useState<boolean>(false);
   const [isOpenReg, setIsOpenReg] = useState<boolean>(false);
 

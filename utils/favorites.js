@@ -42,3 +42,13 @@ export const removeFavoriteTeacher = async (userId, teacherId) => {
     console.error(error);
   }
 }
+
+export const getFavoriteTeachersById = async (teacherId) => {
+  try {
+    const response = await axios.get(`${FIREBASE_URL}/teachers/teachers/${teacherId}.json`);
+    return response.data;
+
+  } catch (error) {
+    console.error(error);
+  }
+}

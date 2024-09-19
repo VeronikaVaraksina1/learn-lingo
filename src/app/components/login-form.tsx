@@ -7,8 +7,8 @@ import { login } from '../../../utils/auth';
 import { useForm } from 'react-hook-form';
 import { loginSchema } from '../schemas/schemas';
 import toast from 'react-hot-toast';
-import { useAppContext } from './auth-provider';
 import { handleCloseModal } from '../../../utils/modalHelpers';
+import { useStateContext } from './state-provider';
 
 interface FormValues {
   email: string;
@@ -21,7 +21,7 @@ interface LoginData {
 };
 
 export default function LoginForm() {
-  const { setIsOpenLog } = useAppContext();
+  const { setIsOpenLog } = useStateContext();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(loginSchema) });
 

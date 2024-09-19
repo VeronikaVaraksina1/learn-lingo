@@ -3,10 +3,10 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React from 'react';
-import { useAppContext } from './auth-provider';
+import { useAuthContext } from './auth-provider';
 
 export default function Navigation() {
-  const { currentUser } = useAppContext();
+  const { currentUser } = useAuthContext();
   const pathname = usePathname();
 
   return (

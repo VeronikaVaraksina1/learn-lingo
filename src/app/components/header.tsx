@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Navigation from './navigation';
 import Logo from './logo';
 import AuthMenu from './auth-menu';
-import { useAppContext } from './auth-provider';
+import { useAuthContext } from './auth-provider';
 import UserMenu from './user-menu';
 
 interface HeaderProps {
@@ -12,7 +12,7 @@ interface HeaderProps {
 }
 
 export default function Header({ children }: HeaderProps) {
-  const { currentUser } = useAppContext();
+  const { currentUser } = useAuthContext();
 
   return (
     <header>

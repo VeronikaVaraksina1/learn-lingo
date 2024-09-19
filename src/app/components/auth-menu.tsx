@@ -6,10 +6,10 @@ import ModalWindow from './modal-window';
 import Login from './login';
 import Registration from './registration';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
-import { useAppContext } from './auth-provider';
+import { useStateContext } from './state-provider';
 
 export default function AuthMenu() {
-  const {isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg } = useAppContext();
+  const {isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg } = useStateContext();
 
   return (
     <div className='flex flex-wrap gap-4 justify-center items-center'>

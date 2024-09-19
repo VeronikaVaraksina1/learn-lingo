@@ -5,8 +5,9 @@ import { fetchTeachers } from '../../../utils/fetchTeachers';
 import TeachersList from '../components/teachers-list';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/loader';
-import { useAppContext } from '../components/auth-provider';
+import { useAuthContext } from '../components/auth-provider';
 import { getFavoriteTeachers } from '../../../utils/favorites';
+import { useStateContext } from '../components/state-provider';
 
 export interface Review {
   reviewer_name: string;
@@ -31,7 +32,8 @@ export interface Teacher {
 }
 
 export default function TeachersPage() {
-  const { currentUser, setFavorites } = useAppContext();
+  const { currentUser } = useAuthContext();
+  const { setFavorites } = useStateContext();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
 

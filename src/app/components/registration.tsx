@@ -4,7 +4,7 @@ import RegistrationForm from './registration-form';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import ModalWindow from './modal-window';
 import Login from './login';
-import { useAppContext } from './auth-provider';
+import { useStateContext } from './state-provider';
 
 interface RegistrationProps {
   onCloseModal: () => void;
@@ -12,7 +12,7 @@ interface RegistrationProps {
 }
 
 export default function Registration({ onCloseModal, isOpenLog }: RegistrationProps) {
-  const { isOpenReg, setIsOpenLog, setIsOpenReg } = useAppContext();
+  const { isOpenReg, setIsOpenLog, setIsOpenReg } = useStateContext();
   return (
     <div className="flex flex-col relative p-16">
       <Button type={'button'} onClick={onCloseModal} className="absolute top-5 right-5 stroke-black">

@@ -4,12 +4,13 @@ import { Teacher } from '../teachers/page';
 import Button from './button';
 import Review from './review';
 import HashtagItem from './hashtag-item';
-import { useAppContext } from './auth-provider';
+import { useAuthContext } from './auth-provider';
 import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
 import { addFavoriteTeacher, removeFavoriteTeacher } from '../../../utils/favorites';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
+import { useStateContext } from './state-provider';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -17,7 +18,8 @@ interface TeacherCardProps {
 
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { id, name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
-  const { favorites, setFavorites, currentUser } = useAppContext();
+  const { currentUser } = useAuthContext();
+  const { favorites, setFavorites } = useStateContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 

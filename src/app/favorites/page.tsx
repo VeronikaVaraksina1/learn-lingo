@@ -1,18 +1,17 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAppContext } from '../components/auth-provider';
-import { Teacher } from '../teachers/page';
-import { fetchTeachers } from '../../../utils/fetchTeachers';
-import TeacherCard from '../components/teacher-card';
+import { useAuthContext } from '../components/auth-provider';
 import TeachersList from '../components/teachers-list';
 import Loader from '../components/loader';
 import toast, { Toaster } from 'react-hot-toast';
 import { getFavoriteTeachers } from '../../../utils/favorites';
 import Link from 'next/link';
+import { useStateContext } from '../components/state-provider';
 
 export default function FavoritesPage() {
-  const { currentUser, favorites, setFavorites } = useAppContext();
+  const { currentUser } = useAuthContext();
+  const { favorites, setFavorites } = useStateContext();
   const [loading, setLoading] = useState<boolean>(false);
 
   console.log(favorites);

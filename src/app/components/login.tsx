@@ -6,7 +6,7 @@ import LoginForm from './login-form';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import ModalWindow from './modal-window';
 import Registration from './registration';
-import { useAppContext } from './auth-provider';
+import { useStateContext } from './state-provider';
 
 interface LoginProps {
   onCloseModal: () => void;
@@ -14,7 +14,7 @@ interface LoginProps {
 }
 
 export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
-  const { isOpenLog, setIsOpenLog, setIsOpenReg } = useAppContext();
+  const { isOpenLog, setIsOpenLog, setIsOpenReg } = useStateContext();
   // setIsOpenLog={setIsOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} setIsOpenReg={setIsOpenReg}
   return (
     <div className="flex flex-col relative p-16">

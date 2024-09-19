@@ -9,8 +9,8 @@ import { regiastrationSchema } from '../schemas/schemas';
 import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAppContext } from './auth-provider';
-import { updateProfile, User } from 'firebase/auth';
+import { updateProfile } from 'firebase/auth';
+import { useStateContext } from './state-provider';
 
 interface FormValues {
   name: string;
@@ -25,7 +25,7 @@ interface RegistrationData {
 }
 
 export default function RegistrationForm() {
-  const { setIsOpenReg } = useAppContext();
+  const { setIsOpenReg } = useStateContext();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(regiastrationSchema) });

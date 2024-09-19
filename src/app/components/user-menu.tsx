@@ -1,13 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useAppContext } from './auth-provider';
+import { useAuthContext } from './auth-provider';
 import Button from './button';
 import { logout } from '../../../utils/auth';
 import toast from 'react-hot-toast';
 
 export default function UserMenu() {
-  const { currentUser } = useAppContext();
+  const { currentUser } = useAuthContext();
 
   const handleLogout = () => {
     try {

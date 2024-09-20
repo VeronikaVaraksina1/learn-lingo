@@ -1,12 +1,10 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Button from './button';
 import LoginForm from './login-form';
-import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import ModalWindow from './modal-window';
 import Registration from './registration';
 import { useStateContext } from './state-provider';
+import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 
 interface LoginProps {
   onCloseModal: () => void;
@@ -15,7 +13,7 @@ interface LoginProps {
 
 export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
   const { isOpenLog, setIsOpenLog, setIsOpenReg } = useStateContext();
-  // setIsOpenLog={setIsOpenLog} onCloseModal={handleCloseModal(setIsOpenLog)} isOpenReg={isOpenReg} setIsOpenReg={setIsOpenReg}
+
   return (
     <div className="flex flex-col relative p-16">
       <Button

@@ -1,16 +1,19 @@
 'use client';
 
+import React, { useEffect, useState } from 'react';
 import { Teacher } from '../teachers/page';
 import Button from './button';
 import Review from './review';
 import HashtagItem from './hashtag-item';
-import { useAuthContext } from './auth-provider';
+import ModalWindow from './modal-window';
+import Login from './login';
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react';
+import { useStateContext } from './state-provider';
 import { addFavoriteTeacher, removeFavoriteTeacher } from '../../../utils/favorites';
+import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
+import { useAuthContext } from './auth-provider';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
-import { useStateContext } from './state-provider';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -19,8 +22,9 @@ interface TeacherCardProps {
 export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { id, name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
   const { currentUser } = useAuthContext();
-  const { favorites, setFavorites } = useStateContext();
+  const { favorites, setFavorites, isOpenReg } = useStateContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const userId = currentUser?.uid;
@@ -34,27 +38,32 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   }, [id, favorites, userId]);
 
   const handleAddToFavorite = async () => {
-    if (!userId && teacherId !== null && teacherId !== undefined) {
-      toast.error('User ID or Teacher ID is undefined');
-      return;
-    }
+    if (!currentUser) {      
+      handleOpenModal(setIsOpenModal)();
+    } else {
 
-    try {
-      const isTeacherFavorite = favorites.some((item) => item.id === id);
-
-      if (!isTeacherFavorite) {
-        const updated = await addFavoriteTeacher(userId, teacher);
-        setFavorites(updated);
-        setIsFavorite(true);
-        toast.success('Added to "Favorites"');
-      } else {
-        const response = await removeFavoriteTeacher(userId, teacherId);
-        setFavorites(response);
-        setIsFavorite(false);
-        toast.success('Removed from "Favorites"');
+      if (!userId && teacherId !== null && teacherId !== undefined) {
+        toast.error('User ID or Teacher ID is undefined');
+        return;
       }
-    } catch (error) {
-      toast.error('Something went wrong! Try again');
+
+      try {
+        const isTeacherFavorite = favorites.some((item) => item.id === id);
+
+        if (!isTeacherFavorite) {
+          const updated = await addFavoriteTeacher(userId, teacher);
+          setFavorites(updated);
+          setIsFavorite(true);
+          toast.success('Added to "Favorites"');
+        } else {
+          const response = await removeFavoriteTeacher(userId, teacherId);
+          setFavorites(response);
+          setIsFavorite(false);
+          toast.success('Removed from "Favorites"');
+        }
+      } catch (error) {
+        toast.error('Something went wrong! Try again');
+      }
     }
   };
 
@@ -179,6 +188,10 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
           </ul>
         </div>
       </div>
+
+      <ModalWindow isOpenModal={isOpenModal} onCloseModal={handleCloseModal(setIsOpenModal)}>
+        <Login onCloseModal={handleCloseModal(setIsOpenModal)} isOpenReg={isOpenReg} />
+      </ModalWindow>
     </div>
   );
 }

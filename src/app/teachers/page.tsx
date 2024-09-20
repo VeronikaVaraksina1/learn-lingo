@@ -80,6 +80,7 @@ export default function TeachersPage() {
           <TeachersList teachers={teachers} />
         </div>
       )}
+
       <Toaster />
     </div>
   );

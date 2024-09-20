@@ -14,8 +14,6 @@ export default function FavoritesPage() {
   const { favorites, setFavorites } = useStateContext();
   const [loading, setLoading] = useState<boolean>(false);
 
-  console.log(favorites);
-
   useEffect(() => {
     if (!currentUser) {
       return;

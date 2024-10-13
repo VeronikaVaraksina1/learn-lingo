@@ -2,13 +2,32 @@ import axios from 'axios';
 
 const FIREBASE_URL = 'https://learn-lingo-d7769-default-rtdb.europe-west1.firebasedatabase.app/';
 
-export const fetchTeachers = async () => {
+export const fetchTeachers = async (lastItemKey = null, limit = 4) => {
   try {
-    const response = await axios.get(`${FIREBASE_URL}/teachers.json`);
-    return response.data.teachers;
-    
+    // Формуємо запит до Firebase
+    let url = `${FIREBASE_URL}/teachers/teachers.json?orderBy="$key"&limitToFirst=${limit}`;
+
+    if (lastItemKey) {
+      // Якщо це не перше завантаження, додаємо startAfter для пагінації
+      url += `&startAfter="${lastItemKey}"`;
+    }
+
+    const response = await axios.get(url);
+    const teachers = response.data || {};  // Якщо даних нема, повертаємо порожній об'єкт
+
+    // Перетворюємо об'єкт на масив, фільтруючи записи, що містять null або порожні значення
+    const teachersArray = Object.keys(teachers)
+      .map((key) => ({
+        id: key,
+        ...teachers[key],
+      }))
+      .filter((teacher) => teacher.id && Object.keys(teacher).length > 1); // Фільтруємо порожні записи
+
+    console.log(teachersArray);  // Логування для перевірки результату
+
+    return teachersArray;  // Повертаємо масив викладачів
   } catch (error) {
-    console.log(error);
-    return null;
+    console.error('Error fetching teachers:', error);
+    return [];
   }
 };

@@ -8,6 +8,7 @@ import Loader from '../components/loader';
 import { useAuthContext } from '../components/auth-provider';
 import { getFavoriteTeachers } from '../../../utils/favorites';
 import { useStateContext } from '../components/state-provider';
+import LoadMore from '../components/load-more';
 
 export interface Review {
   reviewer_name: string;
@@ -35,7 +36,9 @@ export default function TeachersPage() {
   const { currentUser } = useAuthContext();
   const { setFavorites } = useStateContext();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
+  const [lastItemKey, setLastItemKey] = useState(null);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const userId = currentUser?.uid;
 
@@ -43,8 +46,13 @@ export default function TeachersPage() {
     const fetchData = async () => {
       try {
         setLoading(true);
+
         const result = await fetchTeachers();
+        const key = result[result.length - 1].id;
+             
         setTeachers(result);
+        setLastItemKey(key)
+  
         setLoading(false);
       } catch (error) {
         console.log(error);
@@ -53,6 +61,32 @@ export default function TeachersPage() {
 
     fetchData();
   }, []);
+  
+  const loadMoreTeachers = async () => {
+    try {
+      setLoading(true);
+
+      const newTeachers = await fetchTeachers(lastItemKey);
+
+      if (newTeachers.length > 0) {
+        const key = newTeachers[newTeachers.length - 1].id;
+  
+        setTeachers((prevTeachers) => [...prevTeachers, ...newTeachers]);
+        setLastItemKey(key);
+
+  //     if (newTeachers.length < 4) {
+  //       setHasMore(false);
+  //     }
+  //   } else {
+  //     setHasMore(false);
+  //   }
+      }
+  
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     const fetchFavorites = async () => {      
@@ -78,6 +112,7 @@ export default function TeachersPage() {
       ) : (
         <div className="max-w-[1184px] py-8 px-16 mx-auto">
           <TeachersList teachers={teachers} />
+          <LoadMore onLoadMore={loadMoreTeachers} />
         </div>
       )}
 

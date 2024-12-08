@@ -9,7 +9,10 @@ import ModalWindow from './modal-window';
 import Login from './login';
 import Image from 'next/image';
 import { useStateContext } from './state-provider';
-import { addFavoriteTeacher, removeFavoriteTeacher } from '../../../utils/favorites';
+import {
+  addFavoriteTeacher,
+  removeFavoriteTeacher,
+} from '../../../utils/favorites';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import { useAuthContext } from './auth-provider';
 import clsx from 'clsx';
@@ -20,9 +23,24 @@ interface TeacherCardProps {
 }
 
 export default function TeacherCard({ teacher }: TeacherCardProps) {
-  const { id, name, surname, levels, avatar_url, reviews, languages, rating, price_per_hour, lessons_done, lesson_info, conditions, experience } = teacher;
+  const {
+    id,
+    name,
+    surname,
+    levels,
+    avatar_url,
+    reviews,
+    languages,
+    rating,
+    price_per_hour,
+    lessons_done,
+    lesson_info,
+    conditions,
+    experience,
+  } = teacher;
   const { currentUser } = useAuthContext();
-  const { favorites, setFavorites, isOpenReg } = useStateContext();
+  const { favorites, setFavorites, isOpenReg, setIsOpenLog } =
+    useStateContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
@@ -38,10 +56,9 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   }, [id, favorites, userId]);
 
   const handleAddToFavorite = async () => {
-    if (!currentUser) {      
-      handleOpenModal(setIsOpenModal)();
+    if (!currentUser) {
+      handleOpenModal(setIsOpenLog)();
     } else {
-
       if (!userId && teacherId !== null && teacherId !== undefined) {
         toast.error('User ID or Teacher ID is undefined');
         return;
@@ -189,8 +206,14 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
         </div>
       </div>
 
-      <ModalWindow isOpenModal={isOpenModal} onCloseModal={handleCloseModal(setIsOpenModal)}>
-        <Login onCloseModal={handleCloseModal(setIsOpenModal)} isOpenReg={isOpenReg} />
+      <ModalWindow
+        isOpenModal={isOpenModal}
+        onCloseModal={handleCloseModal(setIsOpenModal)}
+      >
+        <Login
+          onCloseModal={handleCloseModal(setIsOpenModal)}
+          isOpenReg={isOpenReg}
+        />
       </ModalWindow>
     </div>
   );

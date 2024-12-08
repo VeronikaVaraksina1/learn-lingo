@@ -1,12 +1,18 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomSelect from './custom-select';
 
-export default function Filters() {
+export default function Filters({ onSetLanguage }) {
+  
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
+
+
+  const handleSelectChange = (event) => {
+    onSetLanguage(event.target.value);
+  }
 
   const languageOptions = [
     { value: 'fra', label: 'French' },
@@ -34,9 +40,9 @@ export default function Filters() {
 
   return (
     <div className="flex gap-5 mb-8">
-      <CustomSelect label="Languages" options={languageOptions} placeholder={'Language'} width='221px' />
-      <CustomSelect label="Level of knowledge" options={levelOptions} placeholder={'Level'} width='198px' />
-      <CustomSelect label="Price" options={priceOptions} placeholder={'Price'} width='124px' />
+      <CustomSelect onChange={handleSelectChange} instanceId="language-select" label="Languages" options={languageOptions} placeholder={'Language'} width='221px' />
+      <CustomSelect instanceId="level-select" label="Level of knowledge" options={levelOptions} placeholder={'Level'} width='198px' />
+      <CustomSelect instanceId="price-select" label="Price" options={priceOptions} placeholder={'Price'} width='124px' />
     </div>
   );
 }

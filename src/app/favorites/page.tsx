@@ -42,7 +42,7 @@ export default function FavoritesPage() {
         <Loader />
       ) : (
         <div className="max-w-[1184px] py-8 px-16 mx-auto">
-          {favorites.length === 0 ? (
+          {favorites == null || favorites.length === 0 ? (
             <div className="flex flex-col gap-8 justify-center items-center">
               <p className="text-xl italic font-medium">
                 You don&apos;t have favorite teachers yet

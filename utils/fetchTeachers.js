@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { objectToArray } from '../utils/objectToArray';
 
 const FIREBASE_URL = 'https://learn-lingo-d7769-default-rtdb.europe-west1.firebasedatabase.app/';
 
@@ -16,13 +17,8 @@ export const fetchTeachers = async (lastItemKey = null, limit = 4) => {
     const teachers = response.data || {};  // Якщо даних нема, повертаємо порожній об'єкт
 
     // Перетворюємо об'єкт на масив, фільтруючи записи, що містять null або порожні значення
-    const teachersArray = Object.keys(teachers)
-      .map((key) => ({
-        id: key,
-        ...teachers[key],
-      }))
-      .filter((teacher) => teacher.id && Object.keys(teacher).length > 1); // Фільтруємо порожні записи
-
+    
+    const teachersArray = objectToArray(teachers);
     console.log(teachersArray);  // Логування для перевірки результату
 
     return teachersArray;  // Повертаємо масив викладачів

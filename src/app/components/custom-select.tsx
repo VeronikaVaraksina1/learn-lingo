@@ -7,13 +7,14 @@ interface OptionType {
 }
 
 interface SelectProps {
+  instanceId: string;
   label: string;
   options: OptionType[];
   placeholder: string;
   width: string;
 }
 
-export default function CustomSelect({ label, options, placeholder, width }: SelectProps) {
+export default function CustomSelect({ instanceId, label, options, placeholder, width }: SelectProps) {
   const customStyles: StylesConfig<OptionType, false> = {
     container: (provided) => ({
       ...provided,
@@ -47,7 +48,7 @@ export default function CustomSelect({ label, options, placeholder, width }: Sel
   return (
     <label>
       <p className="text-sm text-gray font-medium mb-2">{label}</p>
-      <Select options={options} placeholder={placeholder} styles={customStyles} />
+      <Select instanceId={instanceId} options={options} placeholder={placeholder} styles={customStyles} />
     </label>
   );
 }

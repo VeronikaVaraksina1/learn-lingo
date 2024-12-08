@@ -57,7 +57,10 @@ export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
         isOpenModal={isOpenReg}
         onCloseModal={handleCloseModal(setIsOpenReg)}
       >
-        <Registration isOpenLog={isOpenLog} onCloseModal={handleCloseModal(setIsOpenReg)} />
+        <Registration
+          isOpenLog={isOpenLog}
+          onCloseModal={handleCloseModal(setIsOpenReg)}
+        />
       </ModalWindow>
     </div>
   );

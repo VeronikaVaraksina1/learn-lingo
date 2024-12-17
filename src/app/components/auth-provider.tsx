@@ -1,8 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, useEffect, useState } from 'react'
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { auth } from '../firebaseConfig';
+import { auth } from '../../lib/firebaseConfig';
 
 interface AuthContextType {
   currentUser: User | null;
@@ -29,11 +29,11 @@ export default function AuthProvider({ children }: AuthProviderProps) {
     return () => unsub();
   }, []);
 
-  return  (
+  return (
     <AuthContext.Provider value={{ currentUser }}>
       {children}
     </AuthContext.Provider>
-  )
+  );
 }
 
 // Хук для доступу до контексту

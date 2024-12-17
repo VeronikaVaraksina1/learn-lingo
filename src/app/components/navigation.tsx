@@ -11,12 +11,12 @@ export default function Navigation() {
 
   return (
     <ul className="flex gap-7">
-      <li className="relative leading-tight pseudoelement-bottom-line">
+      <li className="nav-link">
         <Link href={'/'} className={pathname === '/' ? 'active-link' : ''}>
           Home
         </Link>
       </li>
-      <li className="relative leading-tight pseudoelement-bottom-line">
+      <li className="nav-link">
         <Link
           href={'/teachers'}
           className={pathname === '/teachers' ? 'active-link' : ''}
@@ -24,8 +24,8 @@ export default function Navigation() {
           Teachers
         </Link>
       </li>
-      {currentUser ? (
-        <li className="relative leading-tight pseudoelement-bottom-line">
+      {currentUser && (
+        <li className="nav-link">
           <Link
             href={'/favorites'}
             className={pathname === '/favorites' ? 'active-link' : ''}
@@ -33,7 +33,7 @@ export default function Navigation() {
             Favorites
           </Link>
         </li>
-      ) : null}
+      )}
     </ul>
   );
 }

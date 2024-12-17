@@ -24,9 +24,8 @@ export default function RootLayout({
       <body className={clsx(roboto.className)}>
         <AuthProvider>
           <StateProvider>
-            <Header>
-              <main>{children}</main>
-            </Header>
+            <Header />
+            <main>{children}</main>
             <div id="modal"></div>
           </StateProvider>
         </AuthProvider>

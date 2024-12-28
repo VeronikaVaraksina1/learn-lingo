@@ -3,7 +3,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from 'firebase/auth';
-import { auth } from '../src/lib/firebaseConfig';
+import { auth } from '../src/lib/firebase';
 import { handleAuthError } from './handleAuthError';
 
 export const registerUser = async (email, password) => {

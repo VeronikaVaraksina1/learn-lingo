@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useEffect, useRef, useState } from 'react';
-import { fetchTeachers } from '../../../utils/fetchTeachers';
-import { fetchTeachersByLanguages } from '../../../utils/filtration';
 import TeachersList from '../components/teachers-list';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/loader';
@@ -38,10 +36,9 @@ export default function TeachersPage() {
   const { currentUser } = useAuthContext();
   const { setFavorites } = useStateContext();
   const [teachers, setTeachers] = useState<Teacher[]>([]);
-  const [lastItemKey, setLastItemKey] = useState(null);
-  const [hasMore, setHasMore] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
 
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
@@ -50,88 +47,57 @@ export default function TeachersPage() {
   const userId = currentUser?.uid;
   const listRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetchTeachersByLanguages(language);
-  //       setTeachers(response);
-  //     } catch (error) {
-  //       return [];
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, [language])
-
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchTeachers = async () => {
       try {
         setLoading(true);
+        const response = await fetch(`/api/teachers?page=${page}&limit=4`);
+        const data = await response.json();
 
-        const result = await fetchTeachers();
-        const key = result[result.length - 1].id;
+        if (page === 1) {
+          setTeachers(data.teachers);
+        } else {
+          setTeachers((prevTeachers) => [...prevTeachers, ...data.teachers]);
+        }
 
-        setTeachers(result);
-        setLastItemKey(key);
-
-        setLoading(false);
+        setTotalPages(data.totalPages);
       } catch (error) {
-        console.log(error);
+        console.log('Error fetching teachers', error);
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchData();
-  }, []);
+    fetchTeachers();
+  }, [page]);
 
-  const loadMoreTeachers = async () => {
-    try {
-      setLoading(true);
-      setIsLoadMoreClicked(true);
-
-      const newTeachers = await fetchTeachers(lastItemKey);
-
-      if (newTeachers.length > 0) {
-        const key = newTeachers[newTeachers.length - 1].id;
-
-        setTeachers((prevTeachers) => [...prevTeachers, ...newTeachers]);
-        setLastItemKey(key);
-
-        if (newTeachers.length < 4) {
-          setHasMore(false);
-        } else {
-          setHasMore(true);
-        }
-
-        setLoading(false);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+  const loadMoreTeachers = () => {
+    setPage(page + 1);
   };
 
-  useEffect(() => {
-    const fetchFavorites = async () => {
-      try {
-        if (userId) {
-          const favoriteTeachers = await getFavoriteTeachers(userId);
-          if (favoriteTeachers) {
-            setFavorites(favoriteTeachers);
-          }
-        }
-      } catch (error) {
-        toast.error('Something went wrong! Try again');
-      }
-    };
+  // useEffect(() => {
+  //   const fetchFavorites = async () => {
+  //     try {
+  //       if (userId) {
+  //         const favoriteTeachers = await getFavoriteTeachers(userId);
+  //         if (favoriteTeachers) {
+  //           setFavorites(favoriteTeachers);
+  //         }
+  //       }
+  //     } catch (error) {
+  //       toast.error('Something went wrong! Try again');
+  //     }
+  //   };
 
-    fetchFavorites();
-  }, [userId, setFavorites]);
+  //   fetchFavorites();
+  // }, [userId, setFavorites]);
 
-  useEffect(() => {
-    if (isLoadMoreClicked && listRef.current) {
-      listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      setIsLoadMoreClicked(false);
-    }
-  }, [teachers, isLoadMoreClicked]);
+  // useEffect(() => {
+  //   if (isLoadMoreClicked && listRef.current) {
+  //     listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+  //     setIsLoadMoreClicked(false);
+  //   }
+  // }, [teachers, isLoadMoreClicked]);
 
   return (
     <div className="bg-guyabano w-full h-full">
@@ -141,7 +107,9 @@ export default function TeachersPage() {
         <div className="max-w-[1184px] py-8 px-16 mx-auto">
           <Filters onSetLanguage={setLanguage} />
           <TeachersList teachers={teachers} />
-          {hasMore ? <LoadMore onLoadMore={loadMoreTeachers} /> : null}
+          {page < totalPages && teachers.length > 0 && (
+            <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />
+          )}
           <div ref={listRef}></div>
         </div>
       )}

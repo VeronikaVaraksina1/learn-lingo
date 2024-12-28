@@ -1,0 +1,46 @@
+import admin from 'firebase-admin';
+import { NextResponse } from 'next/server';
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+  });
+}
+
+export const GET = async (request: Request): Promise<Response> => {
+  try {
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get('page') || '1');
+    const limit = parseInt(searchParams.get('limit') || '4');
+
+    const startIndex = (page - 1) * limit;
+
+    const db = admin.database();
+    const ref = db.ref('teachers/teachers');
+    const snapshot = await ref.once('value');
+    const teachers = snapshot.val();
+
+    if (!teachers) {
+      return new Response(JSON.stringify({ teachers: [], totalPages: 0 }), {
+        status: 200,
+      });
+    }
+
+    const totalCount = teachers.length;
+    const totalPages = Math.ceil(totalCount / limit);
+    const paginatedTeachers = teachers.slice(startIndex, startIndex + limit);
+
+    return NextResponse.json(
+      { teachers: paginatedTeachers, totalPages },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error fetching teachers:', error);
+    return new Response('Internal Server Error', { status: 500 });
+  }
+};

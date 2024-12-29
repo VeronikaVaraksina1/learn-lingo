@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { NextResponse } from 'next/server';
+import { NextResponse, NextRequest } from 'next/server';
 
 if (!admin.apps.length) {
   admin.initializeApp({
@@ -12,7 +12,7 @@ if (!admin.apps.length) {
   });
 }
 
-export const GET = async (request: Request): Promise<Response> => {
+export const GET = async (request: NextRequest) => {
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -21,14 +21,15 @@ export const GET = async (request: Request): Promise<Response> => {
     const startIndex = (page - 1) * limit;
 
     const db = admin.database();
-    const ref = db.ref('teachers/teachers');
+    const ref = db.ref('teachers');
     const snapshot = await ref.once('value');
-    const teachers = snapshot.val();
+    const teachers = snapshot.val() || [];
 
     if (!teachers) {
-      return new Response(JSON.stringify({ teachers: [], totalPages: 0 }), {
-        status: 200,
-      });
+      return NextResponse.json(
+        { teachers: [], totalPages: 0 },
+        { status: 200 }
+      );
     }
 
     const totalCount = teachers.length;

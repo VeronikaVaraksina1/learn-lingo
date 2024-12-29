@@ -14,27 +14,27 @@ export default function FavoritesPage() {
   const { favorites, setFavorites } = useStateContext();
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (!currentUser) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     return;
+  //   }
 
-    setLoading(true);
-    const fetchFavoriteTeachers = async () => {
-      try {
-        const favoriteTeachers = await getFavoriteTeachers(currentUser.uid);
+  //   setLoading(true);
+  //   const fetchFavoriteTeachers = async () => {
+  //     try {
+  //       const favoriteTeachers = await getFavoriteTeachers(currentUser.uid);
 
-        if (favoriteTeachers) {
-          setFavorites(favoriteTeachers);
-        }
-      } catch (error) {
-        toast.error('Something went wrong! Try again');
-      }
-    };
+  //       if (favoriteTeachers) {
+  //         setFavorites(favoriteTeachers);
+  //       }
+  //     } catch (error) {
+  //       toast.error('Something went wrong! Try again');
+  //     }
+  //   };
 
-    fetchFavoriteTeachers();
-    setLoading(false);
-  }, [currentUser, setFavorites]);
+  //   fetchFavoriteTeachers();
+  //   setLoading(false);
+  // }, [currentUser, setFavorites]);
 
   return (
     <div className="bg-guyabano w-full h-[87vh]">

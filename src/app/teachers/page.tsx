@@ -45,6 +45,8 @@ export default function TeachersPage() {
   const [price, setPrice] = useState('');
 
   const userId = currentUser?.uid;
+  console.log(userId);
+
   const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -70,6 +72,39 @@ export default function TeachersPage() {
 
     fetchTeachers();
   }, [page]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        setLoading(true);
+        const userToken = await currentUser?.getIdToken();
+
+        if (!userToken) {
+          return;
+        }
+
+        const response = await fetch('/api/users', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setFavorites(data);
+      } catch (error) {
+        console.log('Error fetching favorites', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFavorites();
+  }, []);
 
   const loadMoreTeachers = () => {
     setPage(page + 1);

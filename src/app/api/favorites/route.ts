@@ -1,0 +1,80 @@
+import admin from 'firebase-admin';
+import { NextResponse, NextRequest } from 'next/server';
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+    }),
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
+  });
+}
+
+export const GET = async (request: NextRequest) => {
+  try {
+    const token = request.headers.get('Authorization')?.split(' ')[1];
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const uid = decodedToken.uid;
+
+    const db = admin.database();
+    const ref = db.ref(`users/${uid}`);
+    const snapshot = await ref.once('value');
+    const favorites = snapshot.val() || [];
+
+    return NextResponse.json({ favorites }, { status: 200 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+};
+
+export const POST = async (request: NextRequest) => {
+  try {
+    const token = request.headers.get('Authorization')?.split(' ')[1];
+    if (!token) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const decodedToken = await admin.auth().verifyIdToken(token);
+    const uid = decodedToken.uid;
+
+    const { teacherId } = await request.json();
+    if (!teacherId) {
+      return NextResponse.json(
+        { error: 'No teacher ID provided' },
+        { status: 400 }
+      );
+    }
+
+    const db = admin.database();
+    const userRef = db.ref(`users${uid}`);
+    const snapshot = await userRef.once('value');
+    const favorites = snapshot.val() || [];
+
+    if (favorites.includes(teacherId)) {
+      return NextResponse.json(
+        { message: 'Teacher already in favorites' },
+        { status: 200 }
+      );
+    }
+
+    await userRef.set([...favorites, teacherId]);
+    return NextResponse.json(
+      { message: 'Teacher added to favorites' },
+      { status: 200 }
+    );
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
+};

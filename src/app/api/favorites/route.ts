@@ -23,11 +23,22 @@ export const GET = async (request: NextRequest) => {
     const uid = decodedToken.uid;
 
     const db = admin.database();
-    const ref = db.ref(`users/${uid}`);
+    const ref = db.ref(`users/${uid}/favorites`);
     const snapshot = await ref.once('value');
     const favorites = snapshot.val() || [];
 
-    return NextResponse.json({ favorites }, { status: 200 });
+    if (favorites.length === 0) {
+      return NextResponse.json({ favorites: [] }, { status: 200 });
+    }
+
+    const teacherRef = db.ref('teachers');
+    const teacherPromises = favorites.map((id: string) =>
+      teacherRef.child(id).once('value')
+    );
+    const teacherSnapshots = await Promise.all(teacherPromises);
+    const TeacherData = teacherSnapshots.map((snap) => snap.val());
+
+    return NextResponse.json({ favorites: TeacherData }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

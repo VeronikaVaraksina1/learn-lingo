@@ -45,7 +45,6 @@ export default function TeachersPage() {
   const [price, setPrice] = useState('');
 
   const userId = currentUser?.uid;
-  console.log(userId);
 
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -83,7 +82,7 @@ export default function TeachersPage() {
           return;
         }
 
-        const response = await fetch('/api/users', {
+        const response = await fetch('/api/favorites', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${userToken}`,
@@ -95,7 +94,7 @@ export default function TeachersPage() {
         }
 
         const data = await response.json();
-        setFavorites(data);
+        setFavorites(data.favorites);
       } catch (error) {
         console.log('Error fetching favorites', error);
       } finally {
@@ -104,7 +103,7 @@ export default function TeachersPage() {
     };
 
     fetchFavorites();
-  }, []);
+  }, [currentUser, setFavorites]);
 
   const loadMoreTeachers = () => {
     setPage(page + 1);

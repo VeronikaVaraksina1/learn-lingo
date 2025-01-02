@@ -25,7 +25,7 @@ export const GET = async (request: NextRequest) => {
     const snapshot = await ref.once('value');
     const teachers = snapshot.val() || [];
 
-    if (!teachers) {
+    if (teachers.length === 0) {
       return NextResponse.json(
         { teachers: [], totalPages: 0 },
         { status: 200 }

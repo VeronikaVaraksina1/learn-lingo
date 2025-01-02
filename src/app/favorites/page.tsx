@@ -14,6 +14,29 @@ export default function FavoritesPage() {
   const { favorites, setFavorites } = useStateContext();
   const [loading, setLoading] = useState<boolean>(false);
 
+  const addToFavorites = async (teacherId: string) => {
+    try {
+      const response = await fetch('/api/favorites', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ teacherId }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update favorites');
+      }
+
+      setFavorites(
+        (prev) =>
+          prev.includes(teacherId)
+            ? prev.filter((id) => id !== teacherId) // Видалення з улюблених
+            : [...prev, teacherId] // Додавання до улюблених
+      );
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // useEffect(() => {
   //   if (!currentUser) {
   //     return;
@@ -35,6 +58,8 @@ export default function FavoritesPage() {
   //   fetchFavoriteTeachers();
   //   setLoading(false);
   // }, [currentUser, setFavorites]);
+
+  console.log(addToFavorites);
 
   return (
     <div className="bg-guyabano w-full h-[87vh]">
@@ -58,7 +83,10 @@ export default function FavoritesPage() {
               </Link>
             </div>
           ) : (
-            <TeachersList teachers={favorites} />
+            <TeachersList
+              teachers={favorites}
+              onToggleFavorite={addToFavorites}
+            />
           )}
         </div>
       )}

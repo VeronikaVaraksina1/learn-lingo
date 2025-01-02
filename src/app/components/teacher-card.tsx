@@ -20,9 +20,13 @@ import toast from 'react-hot-toast';
 
 interface TeacherCardProps {
   teacher: Teacher;
+  onToggleFavorite: (teacherId: string) => void;
 }
 
-export default function TeacherCard({ teacher }: TeacherCardProps) {
+export default function TeacherCard({
+  teacher,
+  onToggleFavorite,
+}: TeacherCardProps) {
   const {
     id,
     name,
@@ -43,45 +47,48 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
     useStateContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  // const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
   const userId = currentUser?.uid;
   const teacherId = teacher.id;
 
-  useEffect(() => {
-    if (favorites && userId) {
-      const isFavoriteTeacher = favorites.some((item) => item.id === id);
-      setIsFavorite(isFavoriteTeacher);
-    }
-  }, [id, favorites, userId]);
+  console.log(onToggleFavorite, 2);
+
+  const isFavorite = favorites.includes(id);
+
+  // useEffect(() => {
+  //   if (favorites && userId) {
+  //     const isFavoriteTeacher = favorites.some((item) => item.id === teacherId);
+  //     setIsFavorite(isFavoriteTeacher);
+  //   }
+  // }, [favorites, teacherId, userId]);
 
   const handleAddToFavorite = async () => {
-    if (!currentUser) {
-      handleOpenModal(setIsOpenLog)();
-    } else {
-      if (!userId && teacherId !== null && teacherId !== undefined) {
-        toast.error('User ID or Teacher ID is undefined');
-        return;
-      }
-
-      try {
-        const isTeacherFavorite = favorites.some((item) => item.id === id);
-
-        if (!isTeacherFavorite) {
-          const updated = await addFavoriteTeacher(userId, teacher);
-          setFavorites(updated);
-          setIsFavorite(true);
-          toast.success('Added to "Favorites"');
-        } else {
-          const response = await removeFavoriteTeacher(userId, teacherId);
-          setFavorites(response);
-          setIsFavorite(false);
-          toast.success('Removed from "Favorites"');
-        }
-      } catch (error) {
-        toast.error('Something went wrong! Try again');
-      }
-    }
+    await onToggleFavorite(id);
+    // if (!currentUser) {
+    //   handleOpenModal(setIsOpenLog)();
+    // } else {
+    //   if (!userId && teacherId !== null && teacherId !== undefined) {
+    //     toast.error('User ID or Teacher ID is undefined');
+    //     return;
+    //   }
+    //   try {
+    //     const isTeacherFavorite = favorites.some((item) => item.id === id);
+    //     if (!isTeacherFavorite) {
+    //       const updated = await addFavoriteTeacher(userId, teacher);
+    //       setFavorites(updated);
+    //       setIsFavorite(true);
+    //       toast.success('Added to "Favorites"');
+    //     } else {
+    //       const response = await removeFavoriteTeacher(userId, teacherId);
+    //       setFavorites(response);
+    //       setIsFavorite(false);
+    //       toast.success('Removed from "Favorites"');
+    //     }
+    //   } catch (error) {
+    //     toast.error('Something went wrong! Try again');
+    //   }
+    // }
   };
 
   const handleToggle = () => {

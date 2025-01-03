@@ -15,6 +15,7 @@ if (!admin.apps.length) {
 export const GET = async (request: NextRequest) => {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -23,8 +24,8 @@ export const GET = async (request: NextRequest) => {
     const uid = decodedToken.uid;
 
     const db = admin.database();
-    const ref = db.ref(`users/${uid}/favorites`);
-    const snapshot = await ref.once('value');
+    const userRef = db.ref(`users/${uid}/favorites`);
+    const snapshot = await userRef.once('value');
     const favorites = snapshot.val() || [];
 
     if (favorites.length === 0) {
@@ -36,10 +37,11 @@ export const GET = async (request: NextRequest) => {
       teacherRef.child(id).once('value')
     );
     const teacherSnapshots = await Promise.all(teacherPromises);
-    const TeacherData = teacherSnapshots.map((snap) => snap.val());
+    const teacherData = teacherSnapshots.map((snap) => snap.val());
 
-    return NextResponse.json({ favorites: TeacherData }, { status: 200 });
+    return NextResponse.json({ favorites: teacherData }, { status: 200 });
   } catch (error) {
+    console.error('Token verification error:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
@@ -50,6 +52,7 @@ export const GET = async (request: NextRequest) => {
 export const POST = async (request: NextRequest) => {
   try {
     const token = request.headers.get('Authorization')?.split(' ')[1];
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -58,6 +61,7 @@ export const POST = async (request: NextRequest) => {
     const uid = decodedToken.uid;
 
     const { teacherId } = await request.json();
+
     if (!teacherId) {
       return NextResponse.json(
         { error: 'No teacher ID provided' },
@@ -66,22 +70,33 @@ export const POST = async (request: NextRequest) => {
     }
 
     const db = admin.database();
-    const userRef = db.ref(`users${uid}`);
-    const snapshot = await userRef.once('value');
+    const userFavoritesRef = db.ref(`users/${uid}`);
+    const snapshot = await userFavoritesRef.once('value');
     const favorites = snapshot.val() || [];
 
-    if (favorites.includes(teacherId)) {
-      return NextResponse.json(
-        { message: 'Teacher already in favorites' },
-        { status: 200 }
-      );
+    let updatedFavorites;
+    if (Array.isArray(favorites) && favorites.includes(teacherId)) {
+      updatedFavorites = favorites.filter((id: string) => id !== teacherId);
+    } else {
+      updatedFavorites = [...favorites, teacherId];
     }
 
-    await userRef.set([...favorites, teacherId]);
-    return NextResponse.json(
-      { message: 'Teacher added to favorites' },
-      { status: 200 }
-    );
+    await userFavoritesRef.set(updatedFavorites);
+
+    // if (favorites.includes(teacherId)) {
+    //   return NextResponse.json(
+    //     { message: 'Teacher already in favorites' },
+    //     { status: 200 }
+    //   );
+    // }
+
+    // await userRef.set([...favorites, teacherId]);
+    // return NextResponse.json(
+    //   { message: 'Teacher added to favorites' },
+    //   { status: 200 }
+    // );
+
+    return NextResponse.json({ updatedFavorites }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

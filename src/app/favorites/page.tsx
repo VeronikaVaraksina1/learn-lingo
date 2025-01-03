@@ -16,9 +16,20 @@ export default function FavoritesPage() {
 
   const addToFavorites = async (teacherId: string) => {
     try {
-      const response = await fetch('/api/favorites', {
+      setLoading(true);
+
+      if (!currentUser) {
+        throw new Error('User not authenticated');
+      }
+
+      const userToken = await currentUser?.getIdToken(true);
+
+      const response = await fetch('/api/users/favorites', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${userToken}`,
+        },
         body: JSON.stringify({ teacherId }),
       });
 
@@ -26,15 +37,26 @@ export default function FavoritesPage() {
         throw new Error('Failed to update favorites');
       }
 
-      setFavorites(
-        (prev) =>
-          prev.includes(teacherId)
-            ? prev.filter((id) => id !== teacherId) // Видалення з улюблених
-            : [...prev, teacherId] // Додавання до улюблених
-      );
+      const updatedFavorites = await response.json();
+      setFavorites(updatedFavorites);
+      console.log(updatedFavorites);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  console.log(favorites);
+
+  const handleAddToFavorite = (teacherId: string) => {
+    if (!currentUser) {
+      // handleOpenModal(setIsOpenLog)();
+      console.log('User is not authenticated');
+      return;
+    }
+
+    addToFavorites(teacherId);
   };
 
   // useEffect(() => {
@@ -59,8 +81,6 @@ export default function FavoritesPage() {
   //   setLoading(false);
   // }, [currentUser, setFavorites]);
 
-  console.log(addToFavorites);
-
   return (
     <div className="bg-guyabano w-full h-[87vh]">
       {loading ? (
@@ -83,10 +103,7 @@ export default function FavoritesPage() {
               </Link>
             </div>
           ) : (
-            <TeachersList
-              teachers={favorites}
-              onToggleFavorite={addToFavorites}
-            />
+            <TeachersList teachers={favorites} />
           )}
         </div>
       )}

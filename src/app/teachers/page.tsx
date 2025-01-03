@@ -76,13 +76,13 @@ export default function TeachersPage() {
     const fetchFavorites = async () => {
       try {
         setLoading(true);
-        const userToken = await currentUser?.getIdToken();
+        const userToken = await currentUser?.getIdToken(true);
 
         if (!userToken) {
           return;
         }
 
-        const response = await fetch('/api/favorites', {
+        const response = await fetch('/api/users/favorites', {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${userToken}`,

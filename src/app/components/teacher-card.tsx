@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Teacher } from '../teachers/page';
 import Button from './button';
 import Review from './review';
@@ -9,10 +9,6 @@ import ModalWindow from './modal-window';
 import Login from './login';
 import Image from 'next/image';
 import { useStateContext } from './state-provider';
-import {
-  addFavoriteTeacher,
-  removeFavoriteTeacher,
-} from '../../../utils/favorites';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import { useAuthContext } from './auth-provider';
 import clsx from 'clsx';
@@ -20,13 +16,9 @@ import toast from 'react-hot-toast';
 
 interface TeacherCardProps {
   teacher: Teacher;
-  onToggleFavorite?: (teacherId: string) => void;
 }
 
-export default function TeacherCard({
-  teacher,
-  onToggleFavorite,
-}: TeacherCardProps) {
+export default function TeacherCard({ teacher }: TeacherCardProps) {
   const {
     id,
     name,
@@ -47,17 +39,14 @@ export default function TeacherCard({
     useStateContext();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
-  // const [isFavorite, setIsFavorite] = useState<boolean>(false);
 
-  const userId = currentUser?.uid;
-  const teacherId = teacher.id;
-
-  // const isFavorite = favorites.includes(id);
+  const isFavorite = favorites.some((favorite) => favorite.id === teacher.id);
 
   const addToFavorites = async (teacherId: string) => {
     try {
       if (!currentUser) {
-        throw new Error('User not authenticated');
+        handleOpenModal(setIsOpenLog)();
+        return;
       }
 
       const userToken = await currentUser?.getIdToken(true);
@@ -75,47 +64,18 @@ export default function TeacherCard({
         throw new Error('Failed to update favorites');
       }
 
-      const updatedFavorites = await response.json();
-      setFavorites(updatedFavorites);
-      console.log(updatedFavorites);
+      const data = await response.json();
+      setFavorites(data.updatedFavorites);
+
+      if (isFavorite) {
+        toast.success('Removed from "Favorites"');
+      } else {
+        toast.success('Added to "Favorites"');
+      }
     } catch (error) {
-      console.error(error);
+      toast.error('Something went wrong! Try again');
     }
   };
-
-  // useEffect(() => {
-  //   if (favorites && userId) {
-  //     const isFavoriteTeacher = favorites.some((item) => item.id === teacherId);
-  //     setIsFavorite(isFavoriteTeacher);
-  //   }
-  // }, [favorites, teacherId, userId]);
-
-  // const handleAddToFavorite = async () => {
-  // if (!currentUser) {
-  //   handleOpenModal(setIsOpenLog)();
-  // } else {
-  //   if (!userId && teacherId !== null && teacherId !== undefined) {
-  //     toast.error('User ID or Teacher ID is undefined');
-  //     return;
-  //   }
-  //   try {
-  //     const isTeacherFavorite = favorites.some((item) => item.id === id);
-  //     if (!isTeacherFavorite) {
-  //       const updated = await addFavoriteTeacher(userId, teacher);
-  //       setFavorites(updated);
-  //       setIsFavorite(true);
-  //       toast.success('Added to "Favorites"');
-  //     } else {
-  //       const response = await removeFavoriteTeacher(userId, teacherId);
-  //       setFavorites(response);
-  //       setIsFavorite(false);
-  //       toast.success('Removed from "Favorites"');
-  //     }
-  //   } catch (error) {
-  //     toast.error('Something went wrong! Try again');
-  //   }
-  // }
-  // };
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -172,11 +132,11 @@ export default function TeacherCard({
               </ul>
               <Button type="button" onClick={() => addToFavorites(id)}>
                 <svg
-                  // className={clsx(
-                  //   isFavorite
-                  //     ? 'stroke-red, fill-light-red'
-                  //     : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth'
-                  // )}
+                  className={clsx(
+                    isFavorite
+                      ? 'stroke-red, fill-light-red'
+                      : 'stroke-black fill-none hover:fill-light-red hover:stroke-red transition-smooth'
+                  )}
                   width={26}
                   height={26}
                 >

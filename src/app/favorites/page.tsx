@@ -1,85 +1,50 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { useAuthContext } from '../components/auth-provider';
 import TeachersList from '../components/teachers-list';
-import Loader from '../components/loader';
 import toast, { Toaster } from 'react-hot-toast';
-import { getFavoriteTeachers } from '../../../utils/favorites';
 import Link from 'next/link';
 import { useStateContext } from '../components/state-provider';
+import { useAuthContext } from '../components/auth-provider';
+import Loader from '../components/loader';
 
 export default function FavoritesPage() {
   const { currentUser } = useAuthContext();
   const { favorites, setFavorites } = useStateContext();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
-  const addToFavorites = async (teacherId: string) => {
-    try {
-      setLoading(true);
+  useEffect(() => {
+    const fetchFavorites = async () => {
+      try {
+        setLoading(true);
+        const userToken = await currentUser?.getIdToken(true);
 
-      if (!currentUser) {
-        throw new Error('User not authenticated');
+        if (!userToken) {
+          return;
+        }
+
+        const response = await fetch('/api/users/favorites', {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${userToken}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`Error: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        setFavorites(data.favorites);
+      } catch (error) {
+        toast.error('Something went wrong! Try again');
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const userToken = await currentUser?.getIdToken(true);
-
-      const response = await fetch('/api/users/favorites', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${userToken}`,
-        },
-        body: JSON.stringify({ teacherId }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to update favorites');
-      }
-
-      const updatedFavorites = await response.json();
-      setFavorites(updatedFavorites);
-      console.log(updatedFavorites);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  console.log(favorites);
-
-  const handleAddToFavorite = (teacherId: string) => {
-    if (!currentUser) {
-      // handleOpenModal(setIsOpenLog)();
-      console.log('User is not authenticated');
-      return;
-    }
-
-    addToFavorites(teacherId);
-  };
-
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     return;
-  //   }
-
-  //   setLoading(true);
-  //   const fetchFavoriteTeachers = async () => {
-  //     try {
-  //       const favoriteTeachers = await getFavoriteTeachers(currentUser.uid);
-
-  //       if (favoriteTeachers) {
-  //         setFavorites(favoriteTeachers);
-  //       }
-  //     } catch (error) {
-  //       toast.error('Something went wrong! Try again');
-  //     }
-  //   };
-
-  //   fetchFavoriteTeachers();
-  //   setLoading(false);
-  // }, [currentUser, setFavorites]);
+    fetchFavorites();
+  }, [currentUser, setFavorites]);
 
   return (
     <div className="bg-guyabano w-full h-[87vh]">

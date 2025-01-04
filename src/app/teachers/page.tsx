@@ -5,7 +5,6 @@ import TeachersList from '../components/teachers-list';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/loader';
 import { useAuthContext } from '../components/auth-provider';
-import { getFavoriteTeachers } from '../../../utils/favorites';
 import { useStateContext } from '../components/state-provider';
 import LoadMore from '../components/load-more';
 import Filters from '../components/filters';
@@ -17,7 +16,7 @@ export interface Review {
 }
 
 export interface Teacher {
-  id: number;
+  id: string;
   name: string;
   surname: string;
   languages: string[];
@@ -44,8 +43,6 @@ export default function TeachersPage() {
   const [level, setLevel] = useState('');
   const [price, setPrice] = useState('');
 
-  const userId = currentUser?.uid;
-
   const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -63,7 +60,7 @@ export default function TeachersPage() {
 
         setTotalPages(data.totalPages);
       } catch (error) {
-        console.log('Error fetching teachers', error);
+        toast.error('Something went wrong! Try again');
       } finally {
         setLoading(false);
       }
@@ -96,7 +93,7 @@ export default function TeachersPage() {
         const data = await response.json();
         setFavorites(data.favorites);
       } catch (error) {
-        console.log('Error fetching favorites', error);
+        toast.error('Something went wrong! Try again');
       } finally {
         setLoading(false);
       }
@@ -109,29 +106,11 @@ export default function TeachersPage() {
     setPage(page + 1);
   };
 
-  // useEffect(() => {
-  //   const fetchFavorites = async () => {
-  //     try {
-  //       if (userId) {
-  //         const favoriteTeachers = await getFavoriteTeachers(userId);
-  //         if (favoriteTeachers) {
-  //           setFavorites(favoriteTeachers);
-  //         }
-  //       }
-  //     } catch (error) {
-  //       toast.error('Something went wrong! Try again');
-  //     }
-  //   };
-
-  //   fetchFavorites();
-  // }, [userId, setFavorites]);
-
-  // useEffect(() => {
-  //   if (isLoadMoreClicked && listRef.current) {
-  //     listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-  //     setIsLoadMoreClicked(false);
-  //   }
-  // }, [teachers, isLoadMoreClicked]);
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+  }, [teachers]);
 
   return (
     <div className="bg-guyabano w-full h-full">
@@ -147,7 +126,6 @@ export default function TeachersPage() {
           <div ref={listRef}></div>
         </div>
       )}
-
       <Toaster />
     </div>
   );

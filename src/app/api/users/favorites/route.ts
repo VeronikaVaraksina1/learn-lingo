@@ -41,7 +41,6 @@ export const GET = async (request: NextRequest) => {
 
     return NextResponse.json({ favorites: teacherData }, { status: 200 });
   } catch (error) {
-    console.error('Token verification error:', error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
@@ -70,7 +69,7 @@ export const POST = async (request: NextRequest) => {
     }
 
     const db = admin.database();
-    const userFavoritesRef = db.ref(`users/${uid}`);
+    const userFavoritesRef = db.ref(`users/${uid}/favorites`);
     const snapshot = await userFavoritesRef.once('value');
     const favorites = snapshot.val() || [];
 
@@ -83,20 +82,18 @@ export const POST = async (request: NextRequest) => {
 
     await userFavoritesRef.set(updatedFavorites);
 
-    // if (favorites.includes(teacherId)) {
-    //   return NextResponse.json(
-    //     { message: 'Teacher already in favorites' },
-    //     { status: 200 }
-    //   );
-    // }
+    const teachersRef = db.ref('teachers');
+    const teachersSnapshot = await teachersRef.once('value');
+    const teachersData = teachersSnapshot.val() || [];
 
-    // await userRef.set([...favorites, teacherId]);
-    // return NextResponse.json(
-    //   { message: 'Teacher added to favorites' },
-    //   { status: 200 }
-    // );
+    const selectedTeachers = updatedFavorites.map(
+      (id: string) => teachersData[id]
+    );
 
-    return NextResponse.json({ updatedFavorites }, { status: 200 });
+    return NextResponse.json(
+      { updatedFavorites: selectedTeachers },
+      { status: 200 }
+    );
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

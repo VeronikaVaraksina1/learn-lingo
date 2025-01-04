@@ -3,13 +3,9 @@ import TeacherCard from './teacher-card';
 
 interface TeachersListProps {
   teachers: Teacher[];
-  onToggleFavorite?: (teacherId: string) => void;
 }
 
-export default function TeachersList({
-  teachers,
-  onToggleFavorite,
-}: TeachersListProps) {
+export default function TeachersList({ teachers }: TeachersListProps) {
   return (
     <ul className="flex flex-col gap-8">
       {teachers.map((teacher) => (
@@ -23,5 +19,3 @@ export default function TeachersList({
     </ul>
   );
 }
-
-// `${teacher.id}-${teacher.name}-${teacher.surname}`

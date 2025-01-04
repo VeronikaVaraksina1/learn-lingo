@@ -23,7 +23,9 @@ export const GET = async (request: NextRequest) => {
     const db = admin.database();
     const ref = db.ref('teachers');
     const snapshot = await ref.once('value');
-    const teachers = snapshot.val() || [];
+    const teachersData = snapshot.val() || [];
+
+    const teachers = Object.values(teachersData);
 
     if (teachers.length === 0) {
       return NextResponse.json(
@@ -41,7 +43,6 @@ export const GET = async (request: NextRequest) => {
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error fetching teachers:', error);
     return new Response('Internal Server Error', { status: 500 });
   }
 };

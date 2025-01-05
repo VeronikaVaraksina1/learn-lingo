@@ -31,7 +31,7 @@ export default function FavoritesPage() {
         });
 
         if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+          return toast.error('Something went wrong! Try again');
         }
 
         const data = await response.json();

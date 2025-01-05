@@ -1,4 +1,4 @@
-import toast from "react-hot-toast";
+import toast from 'react-hot-toast';
 
 export const handleAuthError = (error) => {
   switch (error.code) {
@@ -22,9 +22,9 @@ export const handleAuthError = (error) => {
       toast.error('Incorrect password or email.');
       break;
 
-		case 'auth/invalid-credential':
-			toast.error('Incorrect password or email.');
-			break;
+    case 'auth/invalid-credential':
+      toast.error('Incorrect password or email.');
+      break;
 
     default:
       toast.error('An unknown error occurred. Please try again.');

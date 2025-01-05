@@ -2,15 +2,14 @@
 
 import React, { useState } from 'react';
 import Button from './button';
-import { registerUser } from '../../../utils/auth';
+import MiniLoader from './mini-loader';
 import { useRouter } from 'next/navigation';
 import { handleCloseModal } from '../../../utils/modalHelpers';
 import { regiastrationSchema } from '../schemas/schemas';
-import toast from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { updateProfile } from 'firebase/auth';
 import { useStateContext } from './state-provider';
+import toast from 'react-hot-toast';
 
 interface FormValues {
   name: string;
@@ -28,27 +27,44 @@ export default function RegistrationForm() {
   const { setIsOpenReg } = useStateContext();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const {register, handleSubmit, formState: { errors }} = useForm<FormValues>({ resolver: yupResolver(regiastrationSchema) });
+  const [loading, setLoading] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormValues>({ resolver: yupResolver(regiastrationSchema) });
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   const submit = async (data: RegistrationData) => {
-    const displayName = data.name;
+    setLoading(true);
     try {
-      const user = await registerUser(data.email, data.password);
+      const response = await fetch('/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: data.name,
+          password: data.password,
+          email: data.email,
+        }),
+      });
 
-      if (user) {
-        await updateProfile(user, { displayName });
-
-        toast.success('You are successfully registered!');
-        handleCloseModal(setIsOpenReg)();
+      if (!response.ok) {
+        const error = await response.json();
+        return toast.error(error.error || 'Something went wrong! Try again');
       }
 
+      toast.success('You are successfully registered!');
+      handleCloseModal(setIsOpenReg)();
       router.push('/teachers');
     } catch (error) {
       toast.error('Registration error. Please try again!');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,7 +75,7 @@ export default function RegistrationForm() {
           type="text"
           placeholder="Name"
           className="input h-[54px] mb-[18px]"
-          {...register("name")}
+          {...register('name')}
         />
         <p className="absolute top-1 left-3 text-xs text-red">
           {errors.name?.message}
@@ -71,7 +87,7 @@ export default function RegistrationForm() {
           type="email"
           placeholder="Email"
           className="input h-[54px] mb-[18px]"
-          {...register("email")}
+          {...register('email')}
         />
         <p className="absolute top-1 left-3 text-xs text-red">
           {errors.email?.message}
@@ -83,7 +99,7 @@ export default function RegistrationForm() {
           type={showPassword ? 'text' : 'password'}
           placeholder="Password"
           className="input h-[54px] mb-10"
-          {...register("password")}
+          {...register('password')}
         />
         <p className="absolute top-1 left-3 text-xs text-red">
           {errors.password?.message}
@@ -101,9 +117,9 @@ export default function RegistrationForm() {
 
       <Button
         type={'submit'}
-        className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5"
+        className="w-full py-4 rounded-xl min-h-[60px] mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5"
       >
-        Sign Up
+        {loading ? <MiniLoader /> : <p>Sign Up</p>}
       </Button>
     </form>
   );

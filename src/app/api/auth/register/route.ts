@@ -1,6 +1,5 @@
 import admin, { auth } from 'firebase-admin';
 import { FirebaseAuthError } from 'firebase-admin/auth';
-import { FirebaseError } from 'firebase/app';
 import { NextResponse, NextRequest } from 'next/server';
 
 if (!admin.apps.length) {

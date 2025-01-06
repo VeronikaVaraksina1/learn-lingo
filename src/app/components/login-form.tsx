@@ -3,13 +3,14 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Button from './button';
+import MiniLoader from './mini-loader';
+import toast from 'react-hot-toast';
+import { handleLoginError } from '../../../utils/handleLoginError';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import { loginSchema } from '../schemas/schemas';
 import { handleCloseModal } from '../../../utils/modalHelpers';
 import { useStateContext } from './state-provider';
-import toast from 'react-hot-toast';
-import MiniLoader from './mini-loader';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 
@@ -61,16 +62,22 @@ export default function LoginForm() {
       if (!response.ok) {
         switch (response.status) {
           case 400:
-            return toast.error('Session expired. Please log in again');
           case 401:
-            return toast.error('Session expired. Please log in again');
+            toast.error('Session expired. Please log in again');
+            break;
+
           case 403:
-            return toast.error('This account has been deactivated');
+            toast.error('This account has been deactivated.');
+            break;
+
           case 404:
-            return toast.error('User not found. Please log in again');
+            toast.error('User not found. Please log in again');
+            break;
+
           default:
-            return toast.error('Log in failed. Try again');
+            toast.error('Log in failed. Try again');
         }
+        return;
       }
 
       toast.success('Login successful');
@@ -78,11 +85,10 @@ export default function LoginForm() {
       router.push('/teachers');
     } catch (error) {
       if (error instanceof FirebaseError) {
-        if (error.code === 'auth/invalid-credential') {
-          return toast.error('Incorrect email or password');
-        }
+        handleLoginError(error);
+      } else {
+        toast.error('Login error. Please try again later!');
       }
-      toast.error('Login error. Please try again!');
     } finally {
       setLoading(false);
     }
@@ -125,7 +131,7 @@ export default function LoginForm() {
 
       <Button
         type="submit"
-        className="w-full py-4 rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5"
+        className="w-full py-4 min-h-[60px] rounded-xl mx-auto bg-red font-bold text-lg leading-normal red-button-hover mb-5"
       >
         {loading ? <MiniLoader /> : <p>Log In</p>}
       </Button>

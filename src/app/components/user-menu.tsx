@@ -1,22 +1,27 @@
 'use client';
 
 import React from 'react';
-import { useAuthContext } from './auth-provider';
+import { useRouter } from 'next/navigation';
 import Button from './button';
-import { logout } from '../../../utils/auth';
 import toast from 'react-hot-toast';
+import { useAuthContext } from './auth-provider';
+import { getAuth, signOut } from 'firebase/auth';
 
 export default function UserMenu() {
+  const router = useRouter();
   const { currentUser } = useAuthContext();
 
-  const handleLogout = () => {
+  const logout = async () => {
+    const auth = getAuth();
+
     try {
-      logout();
-      toast.success('Successful logout.');
+      await signOut(auth);
+      toast.success('You have been logged out');
+      router.push('/');
     } catch (error) {
       toast.error('Logout error. Please try again!');
     }
-  }
+  };
   return (
     <div className="flex flex-wrap gap-4 justify-center items-center">
       <p className="font-medium italic text-red">
@@ -24,7 +29,7 @@ export default function UserMenu() {
       </p>
       <Button
         type={'button'}
-        onClick={handleLogout}
+        onClick={logout}
         className={
           'flex gap-2.5 justify-center items-center font-bold leading-tight outline-none stroke-red hover:stroke-black focus:stroke-black transition-smooth'
         }

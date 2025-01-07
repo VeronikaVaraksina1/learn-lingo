@@ -117,8 +117,8 @@ export default function TeachersPage() {
       {loading ? (
         <Loader />
       ) : (
-        <div className="max-w-[1184px] py-8 px-16 mx-auto">
-          <Filters onSetLanguage={setLanguage} />
+        <div className="max-w-[1312px] py-7 px-2 md:py-8 md:px-16 mx-auto">
+          {/* <Filters onSetLanguage={setLanguage} /> */}
           <TeachersList teachers={teachers} />
           {page < totalPages && teachers.length > 0 && (
             <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />

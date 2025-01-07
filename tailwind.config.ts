@@ -11,22 +11,25 @@ const config: Config = {
         'pale-black': 'rgba(18, 20, 23, 0.2)',
         'text-color-gray': '#8a8a89',
         'pastel-red': '#fceeed',
-        'black': '#121417',
-        'white': '#ffffff',
-        'guyabano': '#f8f8f8',
-        'gray': '#8a8a89',
-        'red': '#e0a39a',
+        black: '#121417',
+        white: '#ffffff',
+        guyabano: '#f8f8f8',
+        gray: '#8a8a89',
+        red: '#e0a39a',
         'light-red': '#f2c0bd',
-        'green': '#38cd3e',
-        'gold': '#ffc531',
+        green: '#38cd3e',
+        gold: '#ffc531',
       },
     },
     screens: {
-      'sm': {'max': '767px'},
+      sm: { max: '767px' },
       // => @media (max-width: 767px) { ... }
 
-      'md': {'max': '1024px'},
-      // => @media (max-width: 1024px) { ... }
+      md: { min: '768px' },
+      // => @media (min-width: 768px) { ... }
+
+      lg: { min: '1024px' },
+      // => @media (min-width: 1024px) { ... }
     },
   },
   plugins: [],

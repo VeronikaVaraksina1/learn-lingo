@@ -13,6 +13,10 @@ import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import { useAuthContext } from './auth-provider';
 import clsx from 'clsx';
 import toast from 'react-hot-toast';
+import TeacherStats from './teacher-stats';
+import TeacherReview from './teacher-review';
+import TeacherInfo from './teacher-info';
+import TeacherAvatar from './teacher-avatar';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -37,7 +41,6 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { currentUser } = useAuthContext();
   const { favorites, setFavorites, isOpenReg, setIsOpenLog } =
     useStateContext();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
 
   const isFavorite = favorites.some((favorite) => favorite.id === teacher.id);
@@ -77,58 +80,25 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
     }
   };
 
-  const handleToggle = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
     <>
       <div className="lg:hidden">
         <div className="flex flex-col gap-6 font-medium">
           <div className="flex justify-between items-start gap-3">
             <div className="flex gap-5">
-              <Image
-                className="inline-block h-[96px] p-2 border-[3px] border-solid border-red rounded-[100px]"
-                src={avatar_url}
-                alt={`Teacher ${name} ${surname}`}
-                width={96}
-                height={96}
-                property={'false'}
-                quality={100}
+              <TeacherAvatar
+                avatarUrl={avatar_url}
+                name={name}
+                surname={surname}
               />
 
               <div className="flex items-center">
-                <ul className="flex flex-col flex-wrap items-start gap-1">
-                  <li className="relative">
-                    <div className="flex justify-center items-center gap-2">
-                      <svg
-                        className="stroke-black fill-none"
-                        width={16}
-                        height={16}
-                      >
-                        <use href="/icons/icons.svg#icon-book"></use>
-                      </svg>
-                      <span>Lessons online</span>
-                    </div>
-                  </li>
-                  <div className="relative">
-                    <p>Lessons done: {lessons_done}</p>
-                  </div>
-                  <li className="relative">
-                    <p className="flex gap-2 justify-center items-center">
-                      <svg width={16} height={16}>
-                        <use href="/icons/icons.svg#icon-star"></use>
-                      </svg>
-                      Rating: {rating}
-                    </p>
-                  </li>
-                  <li>
-                    <p>
-                      Price / 1 hour:{' '}
-                      <span className="text-green">{`${price_per_hour}$`}</span>
-                    </p>
-                  </li>
-                </ul>
+                <TeacherStats
+                  listStyles={'flex flex-col flex-wrap items-start gap-1'}
+                  lessonsDone={lessons_done}
+                  rating={rating}
+                  pricePerHour={price_per_hour}
+                />
               </div>
             </div>
 
@@ -148,107 +118,40 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
           </div>
 
           <div>
-            <h3 className="text-2xl leading-none mb-8">{`${name} ${surname}`}</h3>
-            <ul className="mb-4">
-              <li className="mb-2">
-                <div className="flex">
-                  <p className="text-gray">Speaks:&nbsp;</p>
-                  <p className="text-black underline decoration-solid decoration-black">
-                    {languages.join(', ')}
-                  </p>
-                </div>
-              </li>
-              <li className="mb-2">
-                <p>
-                  <span className="text-gray">Lesson Info:&nbsp;</span>
-                  {lesson_info}
-                </p>
-              </li>
-              <li>
-                <p>
-                  <span className="text-gray">Conditions:&nbsp;</span>
-                  {conditions}
-                </p>
-              </li>
-            </ul>
+            <TeacherInfo
+              name={name}
+              surname={surname}
+              languages={languages}
+              lessonInfo={lesson_info}
+              conditions={conditions}
+            />
 
-            <Button
-              type="button"
-              className="underline decoration-solid decoration-black mb-8"
-              onClick={handleToggle}
-            >
-              <p>{isOpen ? 'Read less' : 'Read more'}</p>
-            </Button>
-
-            <div className={clsx(isOpen ? 'block' : 'hidden')}>
-              <p className="font-normal mb-8">{experience}</p>
-              <ul>
-                {reviews.map((review, index) => (
-                  <li key={`${review.reviewer_name}-${index}`}>
-                    <Review review={review} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <ul className="flex gap-2 flex-wrap">
-              {levels.map((level, index) => (
-                <li key={`${level}-${index}`}>
-                  <HashtagItem>{level}</HashtagItem>
-                </li>
-              ))}
-            </ul>
+            <TeacherReview
+              experience={experience}
+              reviews={reviews}
+              levels={levels}
+            />
           </div>
         </div>
       </div>
 
       <div className="sm:hidden md:hidden lg:block">
         <div className="flex gap-12 font-medium">
-          <Image
-            className="inline-block h-[96px] p-2 border-[3px] border-solid border-red rounded-[100px]"
-            src={avatar_url}
-            alt={`Teacher ${name} ${surname}`}
-            width={96}
-            height={96}
-            property={'false'}
-            quality={100}
-          />
+          
+          <TeacherAvatar avatarUrl={avatar_url} name={name} surname={surname} />
+
           <div className="w-full">
             <div className="flex justify-between mb-2">
               <p className="sm:hidden md:hidden lg:block text-gray">
                 Languages
               </p>
-              <ul className="flex flex-wrap items-start gap-4">
-                <li className="relative pseudoelement-right-line">
-                  <div className="flex justify-center items-center gap-2">
-                    <svg
-                      className="stroke-black fill-none"
-                      width={16}
-                      height={16}
-                    >
-                      <use href="/icons/icons.svg#icon-book"></use>
-                    </svg>
-                    <span>Lessons online</span>
-                  </div>
-                </li>
-                <div className="relative pseudoelement-right-line">
-                  <p>Lessons done: {lessons_done}</p>
-                </div>
-                <li className="relative pseudoelement-right-line">
-                  <p className="flex gap-2 justify-center items-center">
-                    <svg width={16} height={16}>
-                      <use href="/icons/icons.svg#icon-star"></use>
-                    </svg>
-                    Rating: {rating}
-                  </p>
-                </li>
-                <li>
-                  <p>
-                    Price / 1 hour:{' '}
-                    <span className="text-green">{`${price_per_hour}$`}</span>
-                  </p>
-                </li>
-              </ul>
+
+              <TeacherStats
+                listStyles={'flex flex-wrap items-start gap-4'}
+                lessonsDone={lessons_done}
+                rating={rating}
+                pricePerHour={price_per_hour}
+              />
 
               <Button type="button" onClick={() => addToFavorites(id)}>
                 <svg
@@ -265,56 +168,19 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               </Button>
             </div>
 
-            <h3 className="text-2xl leading-none mb-8">{`${name} ${surname}`}</h3>
-            <ul className="mb-4">
-              <li className="mb-2">
-                <div className="flex">
-                  <p className="text-gray">Speaks:&nbsp;</p>
-                  <p className="text-black underline decoration-solid decoration-black">
-                    {languages.join(', ')}
-                  </p>
-                </div>
-              </li>
-              <li className="mb-2">
-                <p>
-                  <span className="text-gray">Lesson Info:&nbsp;</span>
-                  {lesson_info}
-                </p>
-              </li>
-              <li>
-                <p>
-                  <span className="text-gray">Conditions:&nbsp;</span>
-                  {conditions}
-                </p>
-              </li>
-            </ul>
+            <TeacherInfo
+              name={name}
+              surname={surname}
+              languages={languages}
+              lessonInfo={lesson_info}
+              conditions={conditions}
+            />
 
-            <Button
-              type="button"
-              className="underline decoration-solid decoration-black mb-8"
-              onClick={handleToggle}
-            >
-              <p>{isOpen ? 'Read less' : 'Read more'}</p>
-            </Button>
-
-            <div className={clsx(isOpen ? 'block' : 'hidden')}>
-              <p className="font-normal mb-8">{experience}</p>
-              <ul>
-                {reviews.map((review, index) => (
-                  <li key={`${review.reviewer_name}-${index}`}>
-                    <Review review={review} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <ul className="flex gap-2 flex-wrap">
-              {levels.map((level, index) => (
-                <li key={`${level}-${index}`}>
-                  <HashtagItem>{level}</HashtagItem>
-                </li>
-              ))}
-            </ul>
+            <TeacherReview
+              experience={experience}
+              reviews={reviews}
+              levels={levels}
+            />
           </div>
         </div>
 

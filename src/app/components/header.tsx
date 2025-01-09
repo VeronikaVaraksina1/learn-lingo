@@ -12,10 +12,12 @@ export default function Header() {
 
   return (
     <header>
-      <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
-        <Logo />
-        <Navigation />
-        {currentUser ? <UserMenu /> : <AuthMenu />}
+      <div className="sm:hidden md:hidden lg:block">
+        <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
+          <Logo />
+          <Navigation />
+          {currentUser ? <UserMenu /> : <AuthMenu />}
+        </div>
       </div>
     </header>
   );

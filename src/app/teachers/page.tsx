@@ -9,7 +9,7 @@ import { useStateContext } from '../components/state-provider';
 import LoadMore from '../components/load-more';
 import Filters from '../components/filters';
 
-export interface Review {
+export interface ReviewArray {
   reviewer_name: string;
   reviewer_rating: number;
   comment: string;
@@ -22,7 +22,7 @@ export interface Teacher {
   languages: string[];
   levels: string[];
   rating: number;
-  reviews: Review[];
+  reviews: ReviewArray[];
   price_per_hour: number;
   lessons_done: number;
   avatar_url: string;

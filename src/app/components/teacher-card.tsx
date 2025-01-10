@@ -17,6 +17,7 @@ import TeacherStats from './teacher-stats';
 import TeacherReview from './teacher-review';
 import TeacherInfo from './teacher-info';
 import TeacherAvatar from './teacher-avatar';
+import OrderButton from './order-button';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -42,6 +43,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   const { favorites, setFavorites, isOpenReg, setIsOpenLog } =
     useStateContext();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenReview, setIsOpenReview] = useState<boolean>(false);
 
   const isFavorite = favorites.some((favorite) => favorite.id === teacher.id);
 
@@ -126,18 +128,23 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               conditions={conditions}
             />
 
-            <TeacherReview
-              experience={experience}
-              reviews={reviews}
-              levels={levels}
-            />
+            <div className="mb-8">
+              <TeacherReview
+                experience={experience}
+                reviews={reviews}
+                levels={levels}
+                isOpenReview={isOpenReview}
+                onOpenReview={setIsOpenReview}
+              />
+            </div>
+
+            <OrderButton isOpenReview={isOpenReview} />
           </div>
         </div>
       </div>
 
       <div className="sm:hidden md:hidden lg:block">
         <div className="flex gap-12 font-medium">
-          
           <TeacherAvatar avatarUrl={avatar_url} name={name} surname={surname} />
 
           <div className="w-full">
@@ -147,7 +154,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               </p>
 
               <TeacherStats
-                listStyles={'flex flex-wrap items-start gap-4'}
+                listStyles={'flex flex-wrap items-start gap-8'}
                 lessonsDone={lessons_done}
                 rating={rating}
                 pricePerHour={price_per_hour}
@@ -176,11 +183,17 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               conditions={conditions}
             />
 
-            <TeacherReview
-              experience={experience}
-              reviews={reviews}
-              levels={levels}
-            />
+            <div className="mb-8">
+              <TeacherReview
+                experience={experience}
+                reviews={reviews}
+                levels={levels}
+                isOpenReview={isOpenReview}
+                onOpenReview={setIsOpenReview}
+              />
+            </div>
+
+            <OrderButton isOpenReview={isOpenReview} />
           </div>
         </div>
 

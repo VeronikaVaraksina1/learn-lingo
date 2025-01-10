@@ -12,7 +12,7 @@ export default function TeacherAvatar({
   surname,
 }: TeacherAvatarProps) {
   return (
-    <div className="relative w-[96px] h-[96px]">
+    <div className="relative w-28">
       <Image
         className="inline-block w-[96px] h-[96px] p-2 border-[3px] border-solid border-red rounded-[100px]"
         src={avatarUrl}
@@ -23,7 +23,7 @@ export default function TeacherAvatar({
         quality={100}
       />
 
-      <div className="w-1 h-1 right-0 top-0 absolute bg-green"></div>
+      <div className="w-2 h-2 right-4 top-4 absolute bg-green border-2 border-white rounded-full"></div>
     </div>
   );
 }

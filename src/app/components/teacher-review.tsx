@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Button from './button';
 import Review from './review';
 import clsx from 'clsx';
@@ -11,18 +10,19 @@ interface TeacherReviewProps {
   experience: string;
   reviews: ReviewArray[];
   levels: string[];
+  isOpenReview: boolean;
+  onOpenReview: (isOpenReview: boolean) => void;
 }
 
 export default function TeacherReview({
   experience,
   reviews,
   levels,
+  isOpenReview,
+  onOpenReview,
 }: TeacherReviewProps) {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  console.log(typeof experience);
-
   const handleToggle = () => {
-    setIsOpen(!isOpen);
+    onOpenReview(!isOpenReview);
   };
 
   return (
@@ -32,10 +32,10 @@ export default function TeacherReview({
         className="underline decoration-solid decoration-black mb-8"
         onClick={handleToggle}
       >
-        <p>{isOpen ? 'Read less' : 'Read more'}</p>
+        <p>{isOpenReview ? 'Read less' : 'Read more'}</p>
       </Button>
 
-      <div className={clsx(isOpen ? 'block' : 'hidden')}>
+      <div className={clsx(isOpenReview ? 'block' : 'hidden')}>
         <p className="font-normal mb-8">{experience}</p>
         <ul>
           {reviews.map((review, index) => (

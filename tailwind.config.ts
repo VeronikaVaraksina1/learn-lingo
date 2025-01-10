@@ -28,8 +28,8 @@ const config: Config = {
       md: { min: '768px' },
       // => @media (min-width: 768px) { ... }
 
-      lg: { min: '1024px' },
-      // => @media (min-width: 1024px) { ... }
+      lg: { min: '1060px' },
+      // => @media (min-width: 1060px) { ... }
     },
   },
   plugins: [],

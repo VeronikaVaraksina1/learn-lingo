@@ -8,7 +8,12 @@ interface LoadMoreProps {
 
 export default function LoadMore({ onLoadMore, isLoading }: LoadMoreProps) {
   return (
-    <Button type="button" onClick={onLoadMore} disabled={isLoading}>
+    <Button
+      className="w-36 px-4 py-2 mx-auto bg-red red-button-hover rounded-xl font-bold"
+      type="button"
+      onClick={onLoadMore}
+      disabled={isLoading}
+    >
       Load more
     </Button>
   );

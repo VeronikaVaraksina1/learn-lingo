@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import TeachersList from '../components/teachers-list';
 import toast, { Toaster } from 'react-hot-toast';
 import Loader from '../components/loader';
@@ -8,6 +8,7 @@ import { useAuthContext } from '../components/auth-provider';
 import { useStateContext } from '../components/state-provider';
 import LoadMore from '../components/load-more';
 import Filters from '../components/filters';
+import MiniLoader from '../components/mini-loader';
 
 export interface ReviewArray {
   reviewer_name: string;
@@ -38,6 +39,7 @@ export default function TeachersPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
 
   const [language, setLanguage] = useState('');
   const [level, setLevel] = useState('');
@@ -103,14 +105,16 @@ export default function TeachersPage() {
   }, [currentUser, setFavorites]);
 
   const loadMoreTeachers = () => {
+    setIsLoadMoreClicked(true);
     setPage(page + 1);
   };
 
-  useEffect(() => {
-    if (listRef.current) {
+  useLayoutEffect(() => {
+    if (isLoadMoreClicked && listRef.current) {
       listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      setIsLoadMoreClicked(false);
     }
-  }, [teachers]);
+  }, [teachers, isLoadMoreClicked]);
 
   return (
     <div className="bg-guyabano w-full h-full">
@@ -121,9 +125,15 @@ export default function TeachersPage() {
           {/* <Filters onSetLanguage={setLanguage} /> */}
           <TeachersList teachers={teachers} />
           {page < totalPages && teachers.length > 0 && (
-            <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />
+            <div className="mt-4">
+              {loading ? (
+                <MiniLoader />
+              ) : (
+                <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />
+              )}
+              <div ref={listRef}></div>
+            </div>
           )}
-          <div ref={listRef}></div>
         </div>
       )}
       <Toaster />

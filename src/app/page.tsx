@@ -5,9 +5,9 @@ import { Toaster } from 'react-hot-toast';
 
 export default function Home() {
   return (
-    <div className="bg-bg-color flex flex-col justify-center items-center gap-6 max-w-[1440px] px-16 pb-8 mx-auto">
-      <div className="flex flex-wrap gap-[24px]">
-        <div className="flex gap-16 flex-col bg-guyabano px-16 py-[98px] mx-auto max-w-[720px] rounded-[30px]">
+    <div className="bg-bg-color flex flex-col justify-center items-center gap-6 max-w-[1440px] sm:p-4 px-16 pb-8 mx-auto">
+      <div className="flex sm:flex-wrap md:flex-wrap gap-[24px]">
+        <div className="flex gap-16 flex-col bg-guyabano sm:p-4 px-16 py-[98px] mx-auto max-w-[720px] rounded-[30px]">
           <div className="flex flex-col gap-8">
             <h1 className="text-5xl font-medium leading-[1.17em] tracking-tight">
               Unlock your potential with the best{' '}
@@ -42,7 +42,7 @@ export default function Home() {
           />
         </div>
       </div>
-      <ul className=" sm:p-[20px] sm:gap-6 flex flex-wrap justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
+      <ul className="sm:p-[20px] sm:gap-6 sm:flex-col md:gap-6 md:flex-col flex lg:flex-row lg:gap-0 justify-around items-center w-full py-[40px] border-dashed border-2 border-red rounded-[30px] mx-auto">
         <li>
           <Feature number={'32,000'} description={'Experienced tutors'} />
         </li>

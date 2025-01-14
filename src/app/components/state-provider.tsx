@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useMemo, useState } from 'react';
 import { Teacher } from '../teachers/page';
 
 interface StateContextType {
@@ -23,18 +23,27 @@ export default function StateProvider({ children }: StateProviderProps) {
   const [isOpenLog, setIsOpenLog] = useState<boolean>(false);
   const [isOpenReg, setIsOpenReg] = useState<boolean>(false);
 
+  const value = useMemo(
+    () => ({
+      favorites,
+      setFavorites,
+      isOpenLog,
+      setIsOpenLog,
+      isOpenReg,
+      setIsOpenReg,
+    }),
+    [favorites, isOpenLog, isOpenReg]
+  );
+
   return (
-    <StateContext.Provider value={{ favorites, setFavorites, isOpenLog, setIsOpenLog, isOpenReg, setIsOpenReg }}>
-      {children}
-    </StateContext.Provider>
-  )
+    <StateContext.Provider value={value}>{children}</StateContext.Provider>
+  );
 }
 
-// Хук для доступу до контексту
 export const useStateContext = (): StateContextType => {
   const context = useContext(StateContext);
   if (context === undefined) {
-    throw new Error('useStateContext  must be used within an StateProvider');
+    throw new Error('useStateContext must be used within an StateProvider');
   }
   return context;
 };

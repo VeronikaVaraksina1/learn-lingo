@@ -7,11 +7,21 @@ import Link from 'next/link';
 import { useStateContext } from '../components/state-provider';
 import { useAuthContext } from '../components/auth-provider';
 import Loader from '../components/loader';
+import { useRouter } from 'next/navigation';
+import { handleOpenModal } from '../../../utils/modalHelpers';
 
 export default function FavoritesPage() {
   const { currentUser } = useAuthContext();
-  const { favorites, setFavorites } = useStateContext();
+  const { favorites, setFavorites, setIsOpenLog } = useStateContext();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!currentUser) {
+      router.replace('/');
+      handleOpenModal(setIsOpenLog)();
+    }
+  }, [currentUser, router, setIsOpenLog]);
 
   useEffect(() => {
     const fetchFavorites = async () => {

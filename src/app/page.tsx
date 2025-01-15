@@ -1,7 +1,7 @@
 import Image from 'next/image';
-import Button from './components/button';
 import Feature from './components/feature';
 import { Toaster } from 'react-hot-toast';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -22,14 +22,12 @@ export default function Home() {
               connecting with highly qualified and experienced tutors.
             </p>
           </div>
-          <Button
-            type={'button'}
-            className={
-              'bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl red-button-hover'
-            }
+          <Link
+            href={'/teachers'}
+            className="bg-red font-bold text-lg leading-[1.56em] max-w-[267px] py-4 px-[88px] rounded-xl red-button-hover"
           >
             Get started
-          </Button>
+          </Link>
         </div>
         <div className="mx-auto">
           <Image

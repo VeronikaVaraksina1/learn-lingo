@@ -6,16 +6,37 @@ import Logo from './logo';
 import AuthMenu from './auth-menu';
 import { useAuthContext } from './auth-provider';
 import UserMenu from './user-menu';
+import MobileMenu from './mobile-menu';
+import Button from './button';
+import { useStateContext } from './state-provider';
 
 export default function Header() {
   const { currentUser } = useAuthContext();
+  const { isOpenMenu, setIsOpenMenu } = useStateContext();
 
   const menu = useMemo(() => {
     return currentUser ? <UserMenu /> : <AuthMenu />;
   }, [currentUser]);
 
+  const handleOpenMenu = () => {
+    setIsOpenMenu(true);
+  };
+
   return (
     <header>
+      <div className="lg:hidden flex justify-between items-center p-3">
+        <Logo />
+        <Button
+          type="button"
+          className="fill-black mobile-button-hover py-2 px-3"
+          onClick={handleOpenMenu}
+        >
+          <svg width={24} height={24}>
+            <use href="/icons/icons.svg#icon-open-menu"></use>
+          </svg>
+        </Button>
+        {isOpenMenu ? <MobileMenu /> : null}
+      </div>
       <div className="sm:hidden md:hidden lg:block">
         <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
           <Logo />

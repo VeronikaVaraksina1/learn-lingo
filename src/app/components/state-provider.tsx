@@ -10,6 +10,8 @@ interface StateContextType {
   setIsOpenLog: (isOpen: boolean) => void;
   isOpenReg: boolean;
   setIsOpenReg: (isOpen: boolean) => void;
+  isOpenMenu: boolean;
+  setIsOpenMenu: (isOpenMenu: boolean) => void;
 }
 
 interface StateProviderProps {
@@ -22,6 +24,7 @@ export default function StateProvider({ children }: StateProviderProps) {
   const [favorites, setFavorites] = useState<Teacher[]>([]);
   const [isOpenLog, setIsOpenLog] = useState<boolean>(false);
   const [isOpenReg, setIsOpenReg] = useState<boolean>(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
 
   const value = useMemo(
     () => ({
@@ -31,8 +34,10 @@ export default function StateProvider({ children }: StateProviderProps) {
       setIsOpenLog,
       isOpenReg,
       setIsOpenReg,
+      isOpenMenu,
+      setIsOpenMenu
     }),
-    [favorites, isOpenLog, isOpenReg]
+    [favorites, isOpenLog, isOpenReg, isOpenMenu, setIsOpenMenu]
   );
 
   return (

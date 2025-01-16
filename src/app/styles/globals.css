@@ -110,4 +110,8 @@ select:hover {
   .input {
     @apply w-full py-4 px-[18px] border-2 rounded-xl border-pale-black input-hover input-hover;
   }
+
+  .mobile-button-hover {
+    @apply hover:fill-gray focus:fill-gray transition-smooth
+  }
 }

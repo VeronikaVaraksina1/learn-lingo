@@ -19,6 +19,7 @@ const config: Config = {
         'light-red': '#f2c0bd',
         green: '#38cd3e',
         gold: '#ffc531',
+        'backdrop-mobile-menu': 'rgba(242, 193, 189, 0.7)',
       },
     },
     screens: {

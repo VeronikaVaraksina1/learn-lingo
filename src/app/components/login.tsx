@@ -6,19 +6,14 @@ import Registration from './registration';
 import { useStateContext } from './state-provider';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 
-interface LoginProps {
-  onCloseModal: () => void;
-  isOpenReg: boolean;
-}
-
-export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
-  const { isOpenLog, setIsOpenLog, setIsOpenReg } = useStateContext();
+export default function Login() {
+  const { isOpenReg, setIsOpenLog, setIsOpenReg } = useStateContext();
 
   return (
-    <div className="flex flex-col relative p-16">
+    <div className="flex flex-col relative sm:p-7 p-16">
       <Button
         type={'button'}
-        onClick={onCloseModal}
+        onClick={handleCloseModal(setIsOpenLog)}
         className="absolute top-5 right-5 stroke-black"
       >
         <svg width={32} height={32}>
@@ -57,10 +52,7 @@ export default function Login({ onCloseModal, isOpenReg }: LoginProps) {
         isOpenModal={isOpenReg}
         onCloseModal={handleCloseModal(setIsOpenReg)}
       >
-        <Registration
-          isOpenLog={isOpenLog}
-          onCloseModal={handleCloseModal(setIsOpenReg)}
-        />
+        <Registration />
       </ModalWindow>
     </div>
   );

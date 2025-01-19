@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import Button from './button';
 import ModalWindow from './modal-window';
 import Login from './login';
@@ -17,8 +17,10 @@ export default function AuthMenu() {
       <Button
         type={'button'}
         onClick={() => {
-          setIsOpenMenu(false);
-          handleOpenModal(setIsOpenLog)();
+          handleCloseModal(setIsOpenMenu(false));
+          setTimeout(() => {
+            handleOpenModal(setIsOpenLog)();
+          }, 200);
         }}
         className={
           'flex gap-2.5 justify-center items-center font-bold leading-tight outline-none stroke-red hover:stroke-black focus:stroke-black transition-smooth'
@@ -32,8 +34,10 @@ export default function AuthMenu() {
       <Button
         type={'button'}
         onClick={() => {
-          setIsOpenMenu(false);
-          handleOpenModal(setIsOpenReg)();
+          handleCloseModal(setIsOpenMenu(false));
+          setTimeout(() => {
+            handleOpenModal(setIsOpenReg)();
+          }, 200);
         }}
         className={
           'bg-black text-white font-bold leading-tight rounded-xl px-[39px] py-3.5 hover:bg-text-color-muted focus:bg-text-color-muted transition-smooth'
@@ -46,20 +50,14 @@ export default function AuthMenu() {
         isOpenModal={isOpenLog}
         onCloseModal={handleCloseModal(setIsOpenLog)}
       >
-        <Login
-          onCloseModal={handleCloseModal(setIsOpenLog)}
-          isOpenReg={isOpenReg}
-        />
+        <Login />
       </ModalWindow>
 
       <ModalWindow
         isOpenModal={isOpenReg}
         onCloseModal={handleCloseModal(setIsOpenReg)}
       >
-        <Registration
-          isOpenLog={isOpenLog}
-          onCloseModal={handleCloseModal(setIsOpenReg)}
-        />
+        <Registration />
       </ModalWindow>
     </div>
   );

@@ -3,11 +3,8 @@
 import React, { useState } from 'react';
 import { Teacher } from '../teachers/page';
 import Button from './button';
-import Review from './review';
-import HashtagItem from './hashtag-item';
 import ModalWindow from './modal-window';
 import Login from './login';
-import Image from 'next/image';
 import { useStateContext } from './state-provider';
 import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 import { useAuthContext } from './auth-provider';
@@ -201,10 +198,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
           isOpenModal={isOpenModal}
           onCloseModal={handleCloseModal(setIsOpenModal)}
         >
-          <Login
-            onCloseModal={handleCloseModal(setIsOpenModal)}
-            isOpenReg={isOpenReg}
-          />
+          <Login />
         </ModalWindow>
       </div>
     </>

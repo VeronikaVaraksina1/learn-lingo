@@ -1,8 +1,9 @@
-'use client'
+'use client';
 
 import Link from 'next/link';
 import React from 'react';
 import { useStateContext } from './state-provider';
+import { handleCloseModal } from '../../../utils/modalHelpers';
 
 export default function Logo() {
   const { setIsOpenMenu } = useStateContext();
@@ -12,7 +13,7 @@ export default function Logo() {
       <Link
         href={'/'}
         onClick={() => {
-          setIsOpenMenu(false);
+          handleCloseModal(setIsOpenMenu(false));
         }}
         className="flex gap-2"
       >

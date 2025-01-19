@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { useAuthContext } from './auth-provider';
 import { useStateContext } from './state-provider';
+import { handleCloseModal } from '../../../utils/modalHelpers';
 
 export default function Navigation() {
   const { currentUser } = useAuthContext();
@@ -12,12 +13,12 @@ export default function Navigation() {
   const pathname = usePathname();
 
   return (
-    <ul className="flex flex-col justify-center items-center gap-8 lg:flex-row lg:gap-7">
+    <ul className="flex flex-col justify-center items-center gap-10 lg:flex-row lg:gap-7">
       <li className="nav-link">
         <Link
           href={'/'}
           onClick={() => {
-            setIsOpenMenu(false);
+            handleCloseModal(setIsOpenMenu(false));
           }}
           className={pathname === '/' ? 'active-link' : ''}
         >
@@ -28,7 +29,7 @@ export default function Navigation() {
         <Link
           href={'/teachers'}
           onClick={() => {
-            setIsOpenMenu(false);
+            handleCloseModal(setIsOpenMenu(false));
           }}
           className={pathname === '/teachers' ? 'active-link' : ''}
         >
@@ -40,7 +41,7 @@ export default function Navigation() {
           <Link
             href={'/favorites'}
             onClick={() => {
-              setIsOpenMenu(false);
+              handleCloseModal(setIsOpenMenu(false));
             }}
             className={pathname === '/favorites' ? 'active-link' : ''}
           >

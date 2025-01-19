@@ -6,10 +6,13 @@ import Button from './button';
 import toast from 'react-hot-toast';
 import { useAuthContext } from './auth-provider';
 import { getAuth, signOut } from 'firebase/auth';
+import { handleCloseModal } from '../../../utils/modalHelpers';
+import { useStateContext } from './state-provider';
 
 export default function UserMenu() {
   const router = useRouter();
   const { currentUser } = useAuthContext();
+  const { setIsOpenMenu } = useStateContext();
 
   const logout = async () => {
     const auth = getAuth();
@@ -17,6 +20,7 @@ export default function UserMenu() {
     try {
       await signOut(auth);
       toast.success('You have been logged out');
+      handleCloseModal(setIsOpenMenu(false));
       router.push('/');
     } catch (error) {
       toast.error('Logout error. Please try again!');

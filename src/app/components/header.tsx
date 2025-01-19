@@ -9,6 +9,8 @@ import UserMenu from './user-menu';
 import MobileMenu from './mobile-menu';
 import Button from './button';
 import { useStateContext } from './state-provider';
+import ModalWindow from './modal-window';
+import { handleCloseModal } from '../../../utils/modalHelpers';
 
 export default function Header() {
   const { currentUser } = useAuthContext();
@@ -23,27 +25,35 @@ export default function Header() {
   };
 
   return (
-    <header>
-      <div className="lg:hidden flex justify-between items-center p-3">
-        <Logo />
-        <Button
-          type="button"
-          className="fill-black mobile-button-hover py-2 px-3"
-          onClick={handleOpenMenu}
-        >
-          <svg width={24} height={24}>
-            <use href="/icons/icons.svg#icon-open-menu"></use>
-          </svg>
-        </Button>
-        {isOpenMenu ? <MobileMenu /> : null}
-      </div>
-      <div className="sm:hidden md:hidden lg:block">
-        <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
+    <>
+      <header>
+        <div className="lg:hidden flex justify-between items-center p-6">
           <Logo />
-          <Navigation />
-          {menu}
+          <Button
+            type="button"
+            className="fill-black mobile-button-hover py-2 px-3"
+            onClick={handleOpenMenu}
+          >
+            <svg width={24} height={24}>
+              <use href="/icons/icons.svg#icon-open-menu"></use>
+            </svg>
+          </Button>
         </div>
-      </div>
-    </header>
+        <div className="sm:hidden md:hidden lg:block">
+          <div className="flex justify-between items-center max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
+            <Logo />
+            <Navigation />
+            {menu}
+          </div>
+        </div>
+      </header>
+
+      <ModalWindow
+        isOpenModal={isOpenMenu}
+        onCloseModal={handleCloseModal(setIsOpenMenu)}
+      >
+        <MobileMenu />
+      </ModalWindow>
+    </>
   );
 }

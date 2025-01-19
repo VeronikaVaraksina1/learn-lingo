@@ -7,15 +7,19 @@ interface ModalWindowProps {
   onCloseModal: () => void;
 }
 
-export default function ModalWindow({ children, isOpenModal, onCloseModal }: ModalWindowProps) {
+export default function ModalWindow({
+  children,
+  isOpenModal,
+  onCloseModal,
+}: ModalWindowProps) {
   const customStyles = {
     content: {
-      maxWidth: '1184px',
+      maxWidth: '567px',
+      width: '100%',
       top: '50%',
       left: '50%',
       right: 'auto',
       bottom: 'auto',
-      padding: '0px',
       borderRadius: '30px',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
@@ -26,7 +30,16 @@ export default function ModalWindow({ children, isOpenModal, onCloseModal }: Mod
     },
   };
 
-  Modal.setAppElement("#modal")
+  Modal.setAppElement('#modal');
 
-  return <Modal isOpen={isOpenModal} onRequestClose={onCloseModal} style={customStyles} closeTimeoutMS={250}>{children}</Modal>
-};
+  return (
+    <Modal
+      isOpen={isOpenModal}
+      onRequestClose={onCloseModal}
+      style={customStyles}
+      closeTimeoutMS={250}
+    >
+      {children}
+    </Modal>
+  );
+}

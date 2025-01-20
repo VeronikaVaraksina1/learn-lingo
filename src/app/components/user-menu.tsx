@@ -12,7 +12,7 @@ import { useStateContext } from './state-provider';
 export default function UserMenu() {
   const router = useRouter();
   const { currentUser } = useAuthContext();
-  const { setIsOpenMenu } = useStateContext();
+  const { setIsOpenMenu, setFavorites } = useStateContext();
 
   const logout = async () => {
     const auth = getAuth();
@@ -20,7 +20,8 @@ export default function UserMenu() {
     try {
       await signOut(auth);
       toast.success('You have been logged out');
-      handleCloseModal(setIsOpenMenu(false));
+      handleCloseModal(setIsOpenMenu);
+      setFavorites([]);
       router.push('/');
     } catch (error) {
       toast.error('Logout error. Please try again!');

@@ -18,7 +18,7 @@ export default function Navigation() {
         <Link
           href={'/'}
           onClick={() => {
-            handleCloseModal(setIsOpenMenu(false));
+            handleCloseModal(setIsOpenMenu)();
           }}
           className={pathname === '/' ? 'active-link' : ''}
         >
@@ -29,7 +29,7 @@ export default function Navigation() {
         <Link
           href={'/teachers'}
           onClick={() => {
-            handleCloseModal(setIsOpenMenu(false));
+            handleCloseModal(setIsOpenMenu)();
           }}
           className={pathname === '/teachers' ? 'active-link' : ''}
         >
@@ -41,7 +41,7 @@ export default function Navigation() {
           <Link
             href={'/favorites'}
             onClick={() => {
-              handleCloseModal(setIsOpenMenu(false));
+              handleCloseModal(setIsOpenMenu)();
             }}
             className={pathname === '/favorites' ? 'active-link' : ''}
           >

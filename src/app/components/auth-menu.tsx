@@ -17,7 +17,7 @@ export default function AuthMenu() {
       <Button
         type={'button'}
         onClick={() => {
-          handleCloseModal(setIsOpenMenu(false));
+          handleCloseModal(setIsOpenMenu)();
           setTimeout(() => {
             handleOpenModal(setIsOpenLog)();
           }, 200);
@@ -34,7 +34,7 @@ export default function AuthMenu() {
       <Button
         type={'button'}
         onClick={() => {
-          handleCloseModal(setIsOpenMenu(false));
+          handleCloseModal(setIsOpenMenu)();
           setTimeout(() => {
             handleOpenModal(setIsOpenReg)();
           }, 200);

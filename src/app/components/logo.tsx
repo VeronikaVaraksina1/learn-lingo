@@ -13,7 +13,7 @@ export default function Logo() {
       <Link
         href={'/'}
         onClick={() => {
-          handleCloseModal(setIsOpenMenu(false));
+          handleCloseModal(setIsOpenMenu)();
         }}
         className="flex gap-2"
       >

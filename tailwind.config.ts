@@ -23,11 +23,11 @@ const config: Config = {
       },
     },
     screens: {
-      sm: { max: '767px' },
-      // => @media (max-width: 767px) { ... }
+      sm: { max: '768px' },
+      // => @media (max-width: 768px) { ... }
 
-      md: { min: '768px' },
-      // => @media (min-width: 768px) { ... }
+      md: { min: '769px' },
+      // => @media (min-width: 769px) { ... }
 
       lg: { min: '1060px' },
       // => @media (min-width: 1060px) { ... }

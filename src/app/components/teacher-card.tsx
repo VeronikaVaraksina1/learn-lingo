@@ -37,8 +37,7 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
     experience,
   } = teacher;
   const { currentUser } = useAuthContext();
-  const { favorites, setFavorites, isOpenReg, setIsOpenLog } =
-    useStateContext();
+  const { favorites, setFavorites, setIsOpenLog } = useStateContext();
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
   const [isOpenReview, setIsOpenReview] = useState<boolean>(false);
 

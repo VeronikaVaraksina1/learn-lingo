@@ -10,7 +10,7 @@ import MobileMenu from './mobile-menu';
 import Button from './button';
 import { useStateContext } from './state-provider';
 import ModalWindow from './modal-window';
-import { handleCloseModal } from '../../../utils/modalHelpers';
+import { handleCloseModal, handleOpenModal } from '../../../utils/modalHelpers';
 
 export default function Header() {
   const { currentUser } = useAuthContext();
@@ -20,10 +20,6 @@ export default function Header() {
     return currentUser ? <UserMenu /> : <AuthMenu />;
   }, [currentUser]);
 
-  const handleOpenMenu = () => {
-    setIsOpenMenu(true);
-  };
-
   return (
     <>
       <header>
@@ -32,7 +28,7 @@ export default function Header() {
           <Button
             type="button"
             className="fill-black mobile-button-hover py-2 px-3"
-            onClick={handleOpenMenu}
+            onClick={() => handleOpenModal(setIsOpenMenu)()}
           >
             <svg width={24} height={24}>
               <use href="/icons/icons.svg#icon-open-menu"></use>

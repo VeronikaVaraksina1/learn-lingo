@@ -12,6 +12,9 @@ export const metadata: Metadata = {
   title: 'LearnLingo',
   description:
     'LearnLingo - find the perfect foreign language teacher for you. A wide selection of professional teachers, with convenient search options by language, level, and type of lessons. Start your language journey with us today!',
+  icons: {
+    icon: { url: '/favicon.ico', type: 'image/x-icon' },
+  },
 };
 
 export default function RootLayout({

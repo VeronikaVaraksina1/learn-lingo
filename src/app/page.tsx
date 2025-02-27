@@ -35,8 +35,8 @@ export default function Home() {
             alt={'A girl and a laptop'}
             width={568}
             height={530}
-            property={'false'}
             quality={100}
+            priority
           />
         </div>
       </div>

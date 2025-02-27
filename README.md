@@ -12,6 +12,10 @@ LearnLingo is a web application designed to help users find the perfect foreign 
 
 **TypeScript** – A statically typed superset of JavaScript that enhances code maintainability and error detection.
 
+**Firebase Authentication** – A service that enables user authentication with email and third-party providers.
+
+**Firebase Realtime Database** – A cloud-hosted NoSQL database for real-time data synchronization.
+
 ## Features
 
 **Home Page** – Introduction to the platform and its functionalities.
@@ -23,6 +27,8 @@ LearnLingo is a web application designed to help users find the perfect foreign 
 **User Authentication** – Secure user registration and login system using Firebase Authentication.
 
 **Responsive Design** – Optimized for both desktop and mobile devices.
+
+**Real-Time Data** – Instant updates using Firebase Realtime Database.
 
 ## Installation
 

@@ -7,7 +7,6 @@ import Loader from '../components/loader';
 import { useAuthContext } from '../components/auth-provider';
 import { useStateContext } from '../components/state-provider';
 import LoadMore from '../components/load-more';
-import Filters from '../components/filters';
 import MiniLoader from '../components/mini-loader';
 
 export interface ReviewArray {
@@ -40,10 +39,6 @@ export default function TeachersPage() {
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
   const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-
-  const [language, setLanguage] = useState('');
-  const [level, setLevel] = useState('');
-  const [price, setPrice] = useState('');
 
   const listRef = useRef<HTMLDivElement | null>(null);
 
@@ -122,7 +117,6 @@ export default function TeachersPage() {
         <Loader />
       ) : (
         <div className="max-w-[1312px] py-7 px-2 md:py-8 md:px-16 mx-auto">
-          {/* <Filters onSetLanguage={setLanguage} /> */}
           <TeachersList teachers={teachers} />
           {page < totalPages && teachers.length > 0 && (
             <div className="mt-4">

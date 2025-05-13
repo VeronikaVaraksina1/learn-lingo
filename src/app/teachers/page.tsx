@@ -69,7 +69,6 @@ export default function TeachersPage() {
   useEffect(() => {
     const fetchFavorites = async () => {
       try {
-        setLoading(true);
         const userToken = await currentUser?.getIdToken(true);
 
         if (!userToken) {
@@ -91,8 +90,6 @@ export default function TeachersPage() {
         setFavorites(data.favorites);
       } catch (error) {
         toast.error('Something went wrong! Try again');
-      } finally {
-        setLoading(false);
       }
     };
 

@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className="bg-bg-color flex flex-col justify-center items-center gap-6 max-w-[1440px] sm:p-4 px-16 pb-8 mx-auto">
       <div className="flex sm:flex-wrap md:flex-wrap gap-[24px]">
-        <div className="flex gap-16 flex-col bg-guyabano sm:p-4 px-16 py-[98px] mx-auto max-w-[720px] rounded-[30px]">
+        <div className="flex gap-16 flex-col bg-guyabano sm:max-w-[568px] md:max-w-[720px] lg:max-w-[720px] xl:max-w-[720px] sm:p-4 px-16 py-[98px] mx-auto rounded-[30px]">
           <div className="flex flex-col gap-8">
             <h1 className="text-5xl font-medium leading-[1.17em] tracking-tight">
               Unlock your potential with the best{' '}
@@ -29,11 +29,11 @@ export default function Home() {
             Get started
           </Link>
         </div>
-        <div className="mx-auto">
+        <div className="sm:max-w-[568px] md:max-w-[720px] lg:max-w-[720px] xl:max-w-[568px] mx-auto">
           <Image
             src={'/images/bg.jpg'}
             alt={'A girl and a laptop'}
-            width={568}
+            width={720}
             height={530}
             quality={100}
             priority

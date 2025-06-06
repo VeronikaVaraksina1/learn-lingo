@@ -31,6 +31,9 @@ const config: Config = {
 
       lg: { min: '1060px' },
       // => @media (min-width: 1060px) { ... }
+
+      xl: { min: '1440px' },
+      // => @media (min-width: 1440px) { ... }
     },
   },
   plugins: [],

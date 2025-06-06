@@ -25,10 +25,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={clsx(roboto.className)}>
+      <body>
         <AuthProvider>
           <StateProvider>
-            <LayoutWrapper>
+            <LayoutWrapper className={clsx(roboto.className)}>
               <Header />
               <main className="pt-[88px]">{children}</main>
               <div id="modal"></div>

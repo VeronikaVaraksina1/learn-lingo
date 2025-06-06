@@ -36,7 +36,7 @@ export default function Header() {
           </Button>
         </div>
         <div className="sm:hidden md:hidden lg:block fixed z-[100] w-full">
-          <div className="max-w-[1184px] h-[88px] px-16 py-5 mx-auto">
+          <div className="max-w-[1184px] py-[10px] mx-auto">
             <div className="flex justify-between items-center bg-[rgba(255,255,255,0.9)] rounded-[10px] p-[10px]">
               <Logo />
               <Navigation />

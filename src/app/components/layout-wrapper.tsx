@@ -1,13 +1,13 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { HTMLAttributes, useEffect } from 'react';
 
-interface LayoutWrapperProps {
+interface LayoutWrapperProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
 }
 
-export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
+export const LayoutWrapper = ({ children, ...rest }: LayoutWrapperProps) => {
   const pathname = usePathname();
 
   useEffect(() => {
@@ -20,5 +20,5 @@ export const LayoutWrapper = ({ children }: LayoutWrapperProps) => {
     }
   }, [pathname]);
 
-  return <>{children}</>;
+  return <div {...rest}>{children}</div>;
 };

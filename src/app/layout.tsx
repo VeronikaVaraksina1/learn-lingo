@@ -5,6 +5,7 @@ import Header from './components/header';
 import AuthProvider from './components/auth-provider';
 import clsx from 'clsx';
 import StateProvider from './components/state-provider';
+import { LayoutWrapper } from './components/layout-wrapper';
 
 const roboto = Roboto({ subsets: ['latin'], weight: ['400', '500', '700'] });
 
@@ -27,9 +28,11 @@ export default function RootLayout({
       <body className={clsx(roboto.className)}>
         <AuthProvider>
           <StateProvider>
-            <Header />
-            <main>{children}</main>
-            <div id="modal"></div>
+            <LayoutWrapper>
+              <Header />
+              <main className="pt-[88px]">{children}</main>
+              <div id="modal"></div>
+            </LayoutWrapper>
           </StateProvider>
         </AuthProvider>
       </body>

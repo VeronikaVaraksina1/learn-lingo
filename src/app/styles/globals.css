@@ -5,6 +5,7 @@
 .ReactModal__Overlay {
   opacity: 0;
   transition: opacity 250ms ease-in-out;
+  z-index: 9999;
 }
 
 .ReactModal__Overlay--after-open {
@@ -112,6 +113,6 @@ select:hover {
   }
 
   .mobile-button-hover {
-    @apply hover:fill-gray focus:fill-gray transition-smooth
+    @apply hover:fill-gray focus:fill-gray transition-smooth;
   }
 }

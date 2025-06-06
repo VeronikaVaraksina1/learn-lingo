@@ -3,7 +3,7 @@ import { Discuss } from 'react-loader-spinner';
 
 export default function Loader() {
   return (
-    <div className="flex justify-center items-center h-[80vh] bg-white">
+    <div className="flex justify-center items-center h-[80vh]">
       <Discuss
         visible={true}
         height="80"

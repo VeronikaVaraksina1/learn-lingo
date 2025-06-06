@@ -65,7 +65,7 @@ export default function FavoritesPage() {
           {favorites == null || favorites.length === 0 ? (
             <div className="flex flex-col gap-8 justify-center items-center">
               <p className="text-xl italic font-medium">
-                You don&apos;t have favorite teachers yet
+                {"You don't have favorite teachers yet"}
               </p>
               <Link
                 className="flex gap-2 justify-center items-center text-xl bg-red px-3 py-2 rounded-xl red-button-hover"

@@ -82,7 +82,12 @@ export default function FavoritesPage() {
           )}
         </div>
       )}
-      <Toaster />
+      <Toaster
+        containerStyle={{
+          zIndex: 99999,
+        }}
+        reverseOrder={true}
+      />
     </div>
   );
 }

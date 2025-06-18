@@ -127,7 +127,12 @@ export default function TeachersPage() {
           )}
         </div>
       )}
-      <Toaster />
+      <Toaster
+        containerStyle={{
+          zIndex: 99999,
+        }}
+        reverseOrder={true}
+      />
     </div>
   );
 }

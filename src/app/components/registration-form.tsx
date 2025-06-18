@@ -11,6 +11,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useStateContext } from './state-provider';
 import toast from 'react-hot-toast';
 import { cleanString } from '../../../utils/fieldFormatters';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/lib/firebase';
 
 interface FormValues {
   name: string;
@@ -40,11 +42,13 @@ export default function RegistrationForm() {
   };
 
   const submit = async (data: RegistrationData) => {
+    const { name, email, password } = data;
+
     setLoading(true);
     try {
       const updatedData = {
         ...data,
-        name: cleanString(data.name),
+        name: cleanString(name),
       };
 
       const response = await fetch('/api/auth/register', {
@@ -54,8 +58,8 @@ export default function RegistrationForm() {
         },
         body: JSON.stringify({
           name: updatedData.name,
-          password: data.password,
-          email: data.email,
+          password: password,
+          email: email,
         }),
       });
 
@@ -63,6 +67,8 @@ export default function RegistrationForm() {
         const error = await response.json();
         return toast.error(error.error || 'Something went wrong! Try again');
       }
+
+      await signInWithEmailAndPassword(auth, email, password);
 
       toast.success('You are successfully registered!');
       handleCloseModal(setIsOpenReg)();

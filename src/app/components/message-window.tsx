@@ -1,6 +1,6 @@
 import Button from './button';
 
-interface MessagePopupProps {
+interface MessageWindowProps {
   title: string;
   description: string;
   onCloseModal: () => void;
@@ -10,7 +10,7 @@ export const MessageWindow = ({
   title,
   description,
   onCloseModal,
-}: MessagePopupProps) => {
+}: MessageWindowProps) => {
   return (
     <div className="p-16">
       <Button

@@ -19,11 +19,11 @@ export default function TeacherAvatar({
         alt={`Teacher ${name} ${surname}`}
         width={96}
         height={96}
-        property={'false'}
         quality={100}
+        priority
       />
 
-      <div className="w-2 h-2 right-4 top-4 absolute bg-green border-2 border-white rounded-full"></div>
+      <div className="w-2 h-2 absolute top-4 mdMax:right-[34px] lg:right-4 bg-green border-2 border-white rounded-full"></div>
     </div>
   );
 }

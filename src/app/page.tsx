@@ -7,16 +7,16 @@ export default function Home() {
   return (
     <div className="bg-bg-color flex flex-col justify-center items-center gap-6 max-w-[1440px] sm:p-4 px-16 pb-8 mx-auto">
       <div className="flex sm:flex-wrap md:flex-wrap gap-[24px]">
-        <div className="flex gap-16 flex-col bg-guyabano sm:max-w-[568px] md:max-w-[720px] lg:max-w-[720px] xl:max-w-[720px] sm:p-4 px-16 py-[98px] mx-auto rounded-[30px]">
+        <div className="flex gap-16 flex-col bg-guyabano sm:max-w-[568px] mdMax:max-w-[720px] lg:max-w-[720px] sm:p-4 px-16 py-[98px] mx-auto rounded-[30px]">
           <div className="flex flex-col gap-8">
-            <h1 className="text-5xl font-medium leading-[1.17em] tracking-tight">
+            <h1 className="text-5xl font-medium leading-[1.17em] tracking-[-0.02em]">
               Unlock your potential with the best{' '}
               <span className="bg-light-red rounded-lg italic font-normal px-2">
                 language
               </span>{' '}
               tutors
             </h1>
-            <p className="leading-[1.37em] tracking-tight max-w-[471px]">
+            <p className="leading-[1.37em] tracking-[-0.02em] max-w-[471px]">
               Embark on an Exciting Language Journey with Expert Language
               Tutors: Elevate your language proficiency to new heights by
               connecting with highly qualified and experienced tutors.
@@ -29,7 +29,7 @@ export default function Home() {
             Get started
           </Link>
         </div>
-        <div className="sm:max-w-[568px] md:max-w-[720px] lg:max-w-[720px] xl:max-w-[568px] mx-auto">
+        <div className="mdMax:max-w-[720px] lg:max-w-[720px] xl:max-w-[568px] mx-auto">
           <Image
             src={'/images/bg.jpg'}
             alt={'A girl and a laptop'}
@@ -55,7 +55,12 @@ export default function Home() {
         </li>
       </ul>
 
-      <Toaster />
+      <Toaster
+        containerStyle={{
+          zIndex: 99999,
+        }}
+        reverseOrder={true}
+      />
     </div>
   );
 }

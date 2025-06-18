@@ -20,10 +20,12 @@ export default function ModalWindow({
       left: '50%',
       right: 'auto',
       bottom: 'auto',
+      padding: '0px',
       borderRadius: '30px',
       marginRight: '-50%',
       transform: 'translate(-50%, -50%)',
       backgroundColor: '#fff',
+      overflow: 'hidden',
     },
     overlay: {
       backgroundColor: 'rgba(18, 20, 23, 0.7)',
@@ -39,7 +41,7 @@ export default function ModalWindow({
       style={customStyles}
       closeTimeoutMS={250}
     >
-      {children}
+      <div className="modalScrollContent">{children}</div>
     </Modal>
   );
 }

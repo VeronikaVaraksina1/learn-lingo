@@ -25,7 +25,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body className={clsx(roboto.className)}>
         <AuthProvider>
           <StateProvider>
             <LayoutWrapper className={clsx(roboto.className)}>

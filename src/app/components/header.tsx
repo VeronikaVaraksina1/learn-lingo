@@ -23,7 +23,7 @@ export default function Header() {
   return (
     <>
       <header className="relative">
-        <div className="lg:hidden fixed z-[9999] flex justify-between items-center w-full p-6 bg-[rgba(255,255,255,0.9)]">
+        <div className="lg:hidden fixed z-[9999] flex justify-between items-center w-full p-6 bg-white shadow-sm">
           <Logo />
           <Button
             type="button"
@@ -35,9 +35,9 @@ export default function Header() {
             </svg>
           </Button>
         </div>
-        <div className="sm:hidden md:hidden lg:block fixed z-[100] w-full">
+        <div className="sm:hidden md:hidden lg:block fixed z-[9999] w-full">
           <div className="max-w-[1184px] py-[10px] mx-auto">
-            <div className="flex justify-between items-center bg-[rgba(255,255,255,0.9)] rounded-[10px] p-[10px]">
+            <div className="flex justify-between items-center  bg-white rounded-[10px] p-[10px] shadow-sm">
               <Logo />
               <Navigation />
               {menu}

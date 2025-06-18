@@ -15,6 +15,8 @@ import TeacherReview from './teacher-review';
 import TeacherInfo from './teacher-info';
 import TeacherAvatar from './teacher-avatar';
 import OrderButton from './order-button';
+import { OrderForm } from './order-form';
+import { MessageWindow } from './message-window';
 
 interface TeacherCardProps {
   teacher: Teacher;
@@ -38,8 +40,12 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
   } = teacher;
   const { currentUser } = useAuthContext();
   const { favorites, setFavorites, setIsOpenLog } = useStateContext();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isOpenModal, setIsOpenModal] = useState<boolean>(false);
+  const [isOpenOrderForm, setIsOpenOrderForm] = useState<boolean>(false);
   const [isOpenReview, setIsOpenReview] = useState<boolean>(false);
+  const [isOpenMessageWindow, setIsOpenMessageWindow] =
+    useState<boolean>(false);
 
   const isFavorite = favorites.some((favorite) => favorite.id === teacher.id);
 
@@ -76,6 +82,15 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
     } catch (error) {
       toast.error('Something went wrong! Try again');
     }
+  };
+
+  const handleToggleWindow = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      handleCloseModal(setIsOpenOrderForm)();
+      handleOpenModal(setIsOpenMessageWindow)();
+      setIsLoading(false);
+    }, 3000);
   };
 
   return (
@@ -134,7 +149,14 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               />
             </div>
 
-            <OrderButton isOpenReview={isOpenReview} />
+            <OrderButton
+              onClick={() => {
+                currentUser?.uid
+                  ? handleOpenModal(setIsOpenOrderForm)()
+                  : handleOpenModal(setIsOpenLog)();
+              }}
+              isOpenReview={isOpenReview}
+            />
           </div>
         </div>
       </div>
@@ -189,7 +211,14 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
               />
             </div>
 
-            <OrderButton isOpenReview={isOpenReview} />
+            <OrderButton
+              onClick={() => {
+                currentUser?.uid
+                  ? handleOpenModal(setIsOpenOrderForm)()
+                  : handleOpenModal(setIsOpenLog)();
+              }}
+              isOpenReview={isOpenReview}
+            />
           </div>
         </div>
 
@@ -200,6 +229,29 @@ export default function TeacherCard({ teacher }: TeacherCardProps) {
           <Login />
         </ModalWindow>
       </div>
+
+      <ModalWindow
+        isOpenModal={isOpenOrderForm}
+        onCloseModal={handleCloseModal(setIsOpenOrderForm)}
+      >
+        <OrderForm
+          teacherData={teacher}
+          isLoadingSubmit={isLoading}
+          handleToggleWindow={handleToggleWindow}
+          onCloseModal={handleCloseModal(setIsOpenOrderForm)}
+        />
+      </ModalWindow>
+
+      <ModalWindow
+        isOpenModal={isOpenMessageWindow}
+        onCloseModal={handleCloseModal(setIsOpenMessageWindow)}
+      >
+        <MessageWindow
+          title="Thank you for your request!"
+          description="Our manager will contact you shortly to confirm the details of your trial lesson."
+          onCloseModal={handleCloseModal(setIsOpenMessageWindow)}
+        />
+      </ModalWindow>
     </>
   );
 }

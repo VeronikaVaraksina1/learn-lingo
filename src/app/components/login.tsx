@@ -21,9 +21,9 @@ export default function Login() {
         </svg>
       </Button>
       <div className="mb-10">
-        <h3 className="font-medium text-[40px] leading-tight tracking-tight mb-5">
+        <h2 className="font-medium text-[40px] leading-tight tracking-tight mb-5">
           Log In
-        </h3>
+        </h2>
         <p className="max-w-[438px] leading-snug text-text-color-muted">
           Welcome back! Please enter your credentials to access your account and
           continue your search for an teacher.

@@ -20,9 +20,9 @@ export default function Registration() {
         </svg>
       </Button>
       <div className="mb-10">
-        <h3 className="font-medium text-[40px] leading-tight tracking-tight mb-5">
+        <h2 className="font-medium text-[40px] leading-tight tracking-tight mb-5">
           Registration
-        </h3>
+        </h2>
         <p className="max-w-[438px] leading-snug text-text-color-muted">
           Thank you for your interest in our platform! In order to register, we
           need some information. Please provide us with the following

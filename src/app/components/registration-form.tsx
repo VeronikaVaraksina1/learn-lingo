@@ -10,6 +10,7 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useStateContext } from './state-provider';
 import toast from 'react-hot-toast';
+import { cleanString } from '../../../utils/fieldFormatters';
 
 interface FormValues {
   name: string;
@@ -41,13 +42,18 @@ export default function RegistrationForm() {
   const submit = async (data: RegistrationData) => {
     setLoading(true);
     try {
+      const updatedData = {
+        ...data,
+        name: cleanString(data.name),
+      };
+
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          name: data.name,
+          name: updatedData.name,
           password: data.password,
           email: data.email,
         }),

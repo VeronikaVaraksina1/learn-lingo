@@ -1,13 +1,11 @@
 'use client';
 
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import TeachersList from '../components/teachers-list';
 import toast, { Toaster } from 'react-hot-toast';
-import Loader from '../components/loader';
 import { useAuthContext } from '../components/auth-provider';
 import { useStateContext } from '../components/state-provider';
 import LoadMore from '../components/load-more';
-import MiniLoader from '../components/mini-loader';
 
 export interface ReviewArray {
   reviewer_name: string;
@@ -38,9 +36,6 @@ export default function TeachersPage() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [loading, setLoading] = useState(false);
-  const [isLoadMoreClicked, setIsLoadMoreClicked] = useState(false);
-
-  const listRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const fetchTeachers = async () => {
@@ -97,36 +92,19 @@ export default function TeachersPage() {
   }, [currentUser, setFavorites]);
 
   const loadMoreTeachers = () => {
-    setIsLoadMoreClicked(true);
     setPage(page + 1);
   };
 
-  useLayoutEffect(() => {
-    if (isLoadMoreClicked && listRef.current) {
-      listRef.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
-      setIsLoadMoreClicked(false);
-    }
-  }, [teachers, isLoadMoreClicked]);
-
   return (
     <div className="bg-guyabano w-full h-full">
-      {loading ? (
-        <Loader />
-      ) : (
-        <div className="max-w-[1312px] py-7 px-2 md:py-8 md:px-16 mx-auto">
-          <TeachersList teachers={teachers} />
-          {page < totalPages && teachers.length > 0 && (
-            <div className="mt-4">
-              {loading ? (
-                <MiniLoader />
-              ) : (
-                <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />
-              )}
-              <div ref={listRef}></div>
-            </div>
-          )}
-        </div>
-      )}
+      <div className="max-w-[1312px] py-7 px-2 md:py-8 md:px-16 mx-auto">
+        <TeachersList teachers={teachers} />
+        {page < totalPages && teachers.length > 0 && (
+          <div className="mt-8">
+            <LoadMore onLoadMore={loadMoreTeachers} isLoading={loading} />
+          </div>
+        )}
+      </div>
       <Toaster
         containerStyle={{
           zIndex: 99999,

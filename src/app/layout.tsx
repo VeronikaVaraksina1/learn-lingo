@@ -30,7 +30,7 @@ export default function RootLayout({
           <StateProvider>
             <LayoutWrapper className={clsx(roboto.className)}>
               <Header />
-              <main className="py-[88px]">{children}</main>
+              <main className="pt-[88px]">{children}</main>
               <div id="modal"></div>
             </LayoutWrapper>
           </StateProvider>

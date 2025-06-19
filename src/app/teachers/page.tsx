@@ -96,7 +96,7 @@ export default function TeachersPage() {
   };
 
   return (
-    <div className="bg-guyabano w-full h-full">
+    <div className="bg-guyabano w-full h-full pb-[88px]">
       <div className="max-w-[1312px] py-7 px-2 md:py-8 md:px-16 mx-auto">
         <TeachersList teachers={teachers} />
         {page < totalPages && teachers.length > 0 && (

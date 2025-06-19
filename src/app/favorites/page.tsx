@@ -57,7 +57,7 @@ export default function FavoritesPage() {
   }, [currentUser, setFavorites]);
 
   return (
-    <div className="bg-guyabano w-full h-[87vh]">
+    <div className="bg-guyabano w-full h-[87vh] pb-[88px]">
       {loading ? (
         <Loader />
       ) : (
